@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Projet</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home_title">Home</string>
+    <string name="fav_title">Favorite</string>
+    <string name="cart_title">Cart</string>
+    <string name="profile_title">Profile</string>
+</resources>
