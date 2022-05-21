@@ -13,9 +13,9 @@
         android:title="Favorite"/>
     <item
         android:id="@+id/cart"
-        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:icon="@drawable/ic_baseline_shopping_basket_24"
         app:showAsAction="always"
-        android:title="Setting" />
+        android:title="Basket" />
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_baseline_person_24"

@@ -10,19 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Projet" >
         <activity
-            android:name=".SignInActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".WelcomeActivity"
             android:exported="false" />
         <activity
+            android:name=".SignInActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"/>
+        <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false"
             android:label="@string/title_activity_splash"
-            android:theme="@style/Theme.Projet.Fullscreen" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

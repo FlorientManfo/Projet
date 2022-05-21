@@ -1,9 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:paddingBottom="70dp"
+    android:paddingTop="30dp"
     tools:context=".SignInActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navigate_before_layer"
+        android:layout_alignParentStart="true"
+        android:visibility="gone"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom">
+
+        <LinearLayout
+            android:id="@+id/information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp">
+
+            <TextView
+                style="@style/TextRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:hint="Provide some information to login please"
+                android:inputType="textMultiLine"
+                android:lineHeight="30sp"
+                android:lineSpacingMultiplier="2"
+                android:padding="15dp"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="30sp" />
+
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@drawable/input_background"
+                android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+                android:hint="Phone number"
+                android:inputType="phone"
+                android:padding="15dp"
+                android:textAlignment="center"
+                style="@style/TextRegular"
+                android:textColor="@color/white"
+                android:textColorHint="@color/input_hint"
+                android:textSize="30sp" />
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/input_background"
+                android:drawableLeft="@drawable/ic_baseline_person_24"
+                android:hint="User name"
+                android:inputType="text"
+                android:padding="15dp"
+                style="@style/TextRegular"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/input_hint"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/verification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="We sent you a verification code please enter it here to continue"
+                android:inputType="textMultiLine"
+                android:lineHeight="30sp"
+                android:lineSpacingMultiplier="2"
+                android:padding="15dp"
+                style="@style/TextRegular"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="30sp" />
+
+            <EditText
+                android:id="@+id/otp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/input_background"
+                android:hint="Verification code"
+                android:inputType="number"
+                android:padding="15dp"
+                style="@style/TextRegular"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textColorHint="@color/input_hint"
+                android:textSize="30sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/round_item"
+            android:drawableRight="@drawable/navigate_next_layer"
+            android:text="Next"
+            android:textAlignment="center"
+            style="@style/TitleRegular"/>
+    </LinearLayout>
+
+</RelativeLayout>

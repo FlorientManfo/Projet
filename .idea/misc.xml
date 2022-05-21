@@ -3,16 +3,26 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.169" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/active_menu_style.xml" value="0.1" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/bottom_background.xml" value="0.1" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/bottom_bar_background.xml" value="0.169" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/bottom_item_style.xml" value="0.169" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/input_background.xml" value="0.169" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/navigate_before_layer.xml" value="0.169" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/navigate_next_layer.xml" value="0.169" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/round_item.xml" value="0.169" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/font/app_font.xml" value="0.1125" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/activity_main.xml" value="0.20833333333333334" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/activity_sign_in.xml" value="0.2" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/activity_splash.xml" value="0.19427083333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/activity_welcome.xml" value="0.1" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_authenticate.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_cart.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_details.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_favorite.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_home.xml" value="0.20833333333333334" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_phone.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_profile.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/menu/bottom_menu.xml" value="0.20833333333333334" />
       </map>

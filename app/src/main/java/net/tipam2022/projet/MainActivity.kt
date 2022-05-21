@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        containre = binding.container
+        containre = binding.mainContainer
         bottomNamv = binding.bottomNavigation as BottomNavigationView
 
         setContentView(binding.root)
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     private  fun loadFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container,fragment)
+        transaction.replace(R.id.mainContainer,fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
