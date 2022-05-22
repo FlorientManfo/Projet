@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="drawable_icon_size">50dp</dimen>
+    <dimen name="drawable_icon_size_medium">30dp</dimen>
+    <dimen name="small_image_view">90dp</dimen>
 </resources>

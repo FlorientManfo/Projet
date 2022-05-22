@@ -2,21 +2,16 @@ package net.tipam2022.projet
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.annotation.MainThread
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
@@ -31,7 +26,6 @@ class SignInActivity : AppCompatActivity() {
     lateinit var back: ImageButton
 
     // variable for FirebaseAuth class
-    private var auth: FirebaseAuth? = null
     private val pattern = Regex("[6][7,5,8,9]\\d{7}")
     private lateinit var resendToken: ForceResendingToken
     private lateinit var callbacks: OnVerificationStateChangedCallbacks

@@ -3,13 +3,124 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_background"
+    android:padding="20sp"
     tools:context=".HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/home_title"
-        style="@style/TitleBold"/>
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/home_top_menu"
+            app:title="@string/home_title"
+            app:titleTextAppearance="@style/TitleBold"
+            android:textAlignment="center"
+            app:titleTextColor="@color/white"
+            android:layout_alignParentTop="true"/>
+
+        <RelativeLayout
+            android:id="@+id/searchMenu"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_below="@id/topBar"
+            android:gravity="center"
+            android:layout_marginBottom="10sp"
+            android:layout_marginTop="20sp">
+
+            <SearchView
+                android:id="@+id/searchView"
+                style="@style/TextRegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="70sp"
+                android:background="@drawable/search_view_background"
+                android:searchIcon="@drawable/search_icon_layer"
+                android:textAlignment="textStart" />
+
+            <ImageButton
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/filter_icon_layer"
+                android:backgroundTint="@color/white"
+                android:layout_alignParentEnd="true"/>
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/searchMenu">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/categories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="20sp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Categories"
+                        style="@style/TitleBold"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/categoriesList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        tools:listitem="@layout/category_card"
+                        android:layout_marginTop="10sp"/>
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoryMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10sp"
+                    tools:listitem="@layout/menu_card"
+                    android:layout_below="@id/categories"/>
+
+                <LinearLayout
+                    android:id="@+id/popular"
+                    android:layout_marginTop="20sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Most Popular"
+                        style="@style/TitleBold"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="20sp"
+                        android:id="@+id/mostPopularList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="20sp"
+                        tools:listitem="@layout/most_popular_card"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </RelativeLayout>
 
 </FrameLayout>
