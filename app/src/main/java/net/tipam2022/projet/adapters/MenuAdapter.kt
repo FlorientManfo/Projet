@@ -7,53 +7,51 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import net.tipam2022.projet.R
 import net.tipam2022.projet.entities.Category
+import net.tipam2022.projet.entities.Menu
 
 
-class CategoryAdapter(var context: Context,
-    var categories: ArrayList<Category>, var callback: (Int)->Unit) :
-    RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+class MenuAdapter(
+    var context: Context,
+    var menus: ArrayList<Menu>, var callback: (Int)->Unit) :
+    RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
-    private var selectedItemPosition: Int = 0
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.category_card, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.menu_card, parent, false)
         return ViewHolder (view, callback)
     }
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
-        val category = categories?.get(position)
-        Glide.with(holder.imageView).load(category?.imageUrl).into(holder.imageView)
-
-        holder.itemView.setOnClickListener {
-            selectedItemPosition = position
-            notifyDataSetChanged()
-        }
-        if(selectedItemPosition == position)
-            holder.cardView.setBackgroundColor(R.color.input_border)
-        else
-            holder.cardView.setBackgroundColor(R.color.white)
+        val menu = menus?.get(position)
+        Glide.with(holder.imageView).load(menu?.menuImageUrl).into(holder.imageView)
+        holder.price.text = menu.menuPrice.toString()
+        holder.name.text = menu.menuName.toString()
     }
 
     override fun getItemCount(): Int {
-        return categories.size
+        return menus.size
     }
 
    class ViewHolder(itemView: View, var clickLister: (Int)->Unit) :
        RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var imageView: ImageView
-        var cardView: CardView
+        var price: TextView
+        var name: TextView
+
         init {
-            cardView = itemView.findViewById(R.id.cardView)
-            imageView = itemView.findViewById(R.id.categoryImage)
+            imageView = itemView.findViewById(R.id.menuImage)
+            price = itemView.findViewById(R.id.menuPrice)
+            name = itemView.findViewById(R.id.menuName)
         }
         override fun onClick(p0: View?) {
             val position = adapterPosition

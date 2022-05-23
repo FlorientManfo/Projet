@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    tools:context=".DetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/details_top_menu"
+        app:navigationIcon="@drawable/navigate_before_layer"
+        app:title="Menu Details"
+        app:titleTextAppearance="@style/TitleBold"
+        android:layout_alignParentTop="true"
+        app:titleTextColor="@color/white"/>
+
+    <RelativeLayout
+        android:id="@+id/carousel"
+        android:layout_width="match_parent"
+        android:layout_height="400sp"
+        android:layout_below="@id/topBar"
+        android:layout_marginTop="30sp"
+        android:padding="20sp">
+
+        <ImageView
+            android:id="@+id/selectedSubMenu"
+            android:layout_width="250sp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="20sp"
+            android:scaleType="centerCrop" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/subMenuList"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/selectedSubMenu"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/detailsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/carousel"
+        android:padding="20sp">
+
+        <TextView
+            android:id="@+id/menuName"
+            style="@style/TitleBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:text="Menu name" />
+
+        <TextView
+            android:id="@+id/submenuName"
+            style="@style/TitleRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/menuName"
+            android:layout_alignParentStart="true"
+            android:text="submenu name"
+            android:textColor="@color/input_hint" />
+
+
+        <TextView
+            android:id="@+id/submenuPriceTitle"
+            style="@style/TitleRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="price"
+            android:textColor="@color/input_hint" />
+
+        <TextView
+            android:id="@+id/submenuPrice"
+            style="@style/TitleBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/submenuPriceTitle"
+            android:layout_alignParentEnd="true"
+            android:text="2500 XAF"
+            android:textColor="@color/input_border" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/submenuStatus"
+        android:layout_width="match_parent"
+        android:layout_height="70sp"
+        android:layout_below="@id/detailsText"
+        android:orientation="horizontal"
+        android:paddingBottom="20sp">
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

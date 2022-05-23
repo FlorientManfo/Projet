@@ -3,7 +3,7 @@ package net.tipam2022.projet.entities
 import java.io.Serializable
 
 class Category: Serializable {
-    var categoryId: Int = 0
+    var categoryId: String? = null
     var categoryName: String? = null
     var categoryDescription: String? = null
     var imageUrl: String? = null
@@ -11,7 +11,7 @@ class Category: Serializable {
     // Default constructor required for calls to
     // DataSnapshot.getValue(User.class)
     constructor() {}
-    constructor(categoryId: Int, categoryName: String,
+    constructor(categoryId: String, categoryName: String,
             categoryDescriptions: String ,imageUrl: String?, ) {
         this.categoryId = categoryId
         this.categoryName = categoryName
