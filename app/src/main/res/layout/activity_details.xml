@@ -21,7 +21,7 @@
     <RelativeLayout
         android:id="@+id/carousel"
         android:layout_width="match_parent"
-        android:layout_height="400sp"
+        android:layout_height="350sp"
         android:layout_below="@id/topBar"
         android:layout_marginTop="30sp"
         android:padding="20sp">
@@ -37,7 +37,7 @@
             android:id="@+id/subMenuList"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/selectedSubMenu"/>
+            android:layout_toRightOf="@id/selectedSubMenu" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -87,16 +87,85 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/submenuStatus"
+    <TextView
+        android:id="@+id/detailsParagraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailsText"
+        android:layout_marginBottom="20sp"
+        android:text="Small text"
+        style="@style/TextRegular"
+        android:textColor="@color/input_hint"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:inputType="textMultiLine"
+        android:textAlignment="textStart" />
+
+    <RelativeLayout
+        android:id="@+id/menuStatus"
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:layout_below="@id/detailsParagraph"
+        android:layout_marginRight="20sp"
+        android:gravity="center"
+        android:paddingLeft="20sp">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_column="1"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_star_24" />
+
+            <TextView
+                android:id="@+id/rat"
+                style="@style/TitleBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.9" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/icons8_clock_24px" />
+
+            <TextView
+                android:id="@+id/duration"
+                style="@style/TitleBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20 Min" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/addToCartButton"
+        style="@style/TitleBold"
         android:layout_width="match_parent"
         android:layout_height="70sp"
-        android:layout_below="@id/detailsText"
-        android:orientation="horizontal"
-        android:paddingBottom="20sp">
-
-
-    </LinearLayout>
-
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20sp"
+        android:layout_marginRight="20sp"
+        android:layout_marginBottom="20sp"
+        android:background="@drawable/round_item"
+        android:text="ADD TO CART" />
 
 </RelativeLayout>
