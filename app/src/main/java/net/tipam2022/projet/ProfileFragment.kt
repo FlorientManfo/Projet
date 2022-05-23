@@ -1,20 +1,25 @@
 package net.tipam2022.projet
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import net.tipam2022.projet.CartFragment
-import net.tipam2022.projet.R
-import net.tipam2022.projet.DetailsFragment
-import net.tipam2022.projet.FavoriteFragment
-import net.tipam2022.projet.HomeFragment
-import net.tipam2022.projet.ProfileFragment
-import androidx.appcompat.app.AppCompatActivity
-import android.annotation.SuppressLint
-import android.os.Build
 import android.view.*
-import android.view.View.OnTouchListener
 import androidx.fragment.app.Fragment
-import net.tipam2022.projet.SplashActivity
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import net.tipam2022.projet.adapters.CategoryAdapter
 import net.tipam2022.projet.databinding.FragmentProfileBinding
+import net.tipam2022.projet.entities.Category
+import net.tipam2022.projet.entities.User
+import org.jetbrains.annotations.Nullable
+
 
 /**
  * A simple [Fragment] subclass.
@@ -23,6 +28,11 @@ import net.tipam2022.projet.databinding.FragmentProfileBinding
  */
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
+    lateinit var currentUser: User
+
+    private var orders: ArrayList<Category>? = null
+    private var orderAdapter: CategoryAdapter? = null
+    private var orderRecyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +44,121 @@ class ProfileFragment : Fragment() {
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
+
+
+        binding.editButton.setOnClickListener { goToEdit() }
+        binding.progress.visibility = View.VISIBLE
+        getInformation(requireContext())
+
+
+        orders = ArrayList()
+        orderAdapter = CategoryAdapter(requireContext(), orders!!){it -> orderClickLister(it)}
+        orderRecyclerView?.adapter = orderAdapter
+        getOrders()
+
         return binding.root
+    }
+
+    private fun goToEdit(){
+        var intent = Intent(requireContext(), EditProfileActivity::class.java)
+        startActivity(intent)
+        (activity as Activity?)!!.overridePendingTransition(0, 0)
+    }
+
+    private fun getInformation(context: Context){
+        storageReference = FirebaseStorage.getInstance()
+            .getReference(Constants.STORAGE_PATH_UPLOADS)
+        databaseReference = FirebaseDatabase.getInstance()
+            .getReference(Constants.DATABASE_PATH_UPLOADS)
+        //adding an event listener to fetch values
+
+        //adding an event listener to fetch values
+        databaseReference?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                //dismissing the progress dialog
+                binding.progress.visibility = View.GONE
+
+                //iterating through all the values in database
+                for (postSnapshot in snapshot.children) {
+                    val user: User? = postSnapshot.getValue(User::class.java)
+                    if(user?.userPhoneNumber == PhoneNumber)
+                        currentUser = user!!
+                }
+
+                if(currentUser.profileUrl == null)
+                    getDefaultProfileImage()
+                else
+                    Glide.with(binding.profileImage).load(currentUser.profileUrl).into(binding.profileImage)
+
+                println(currentUser.profileUrl)
+                binding.phoneNumber.text = currentUser.userPhoneNumber
+                binding.userName.text = currentUser.userName
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                binding.progress.visibility = View.GONE
+            }
+        })
+
+    }
+
+    fun getDefaultProfileImage(){
+        var generatedFilePath: String? = null
+        storageReference!!.child("default_profile.png").downloadUrl.addOnSuccessListener(
+            OnSuccessListener<Uri?> {
+                // Got the download URL for 'profileImages/default_profile.png'
+                val downloadUri: Uri = it
+                generatedFilePath = downloadUri.toString() /// The string(file link) that you need
+                Glide.with(binding.profileImage).load(generatedFilePath).into(binding.profileImage)
+            }).addOnFailureListener(OnFailureListener {
+        })
+    }
+
+    private fun getOrders() {
+        databaseReference = FirebaseDatabase.getInstance().getReference("orders/$PhoneNumber")
+        orders?.clear()
+        databaseReference!!.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(
+                snapshot: DataSnapshot,
+                @Nullable previousChildName: String?
+            ) {
+                binding.progress?.visibility = View.GONE
+                snapshot.getValue(Category::class.java)?.let { orders?.add(it) }
+                orderAdapter?.notifyDataSetChanged()
+            }
+
+            override fun onChildChanged(
+                snapshot: DataSnapshot,
+                @Nullable previousChildName: String?
+            ) {
+                binding.progress?.visibility = View.GONE
+                orderAdapter?.notifyDataSetChanged()
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                orderAdapter?.notifyDataSetChanged()
+                binding.progress?.visibility = View.GONE
+            }
+
+            override fun onChildMoved(
+                snapshot: DataSnapshot,
+                @Nullable previousChildName: String?
+            ) {
+                orderAdapter?.notifyDataSetChanged()
+                binding.progress?.visibility = View.GONE
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                println("----------------->${error.message}")
+            }
+        })
+    }
+
+    private fun orderClickLister(orderId: Int){
+
+    }
+
+    object Constants {
+        const val STORAGE_PATH_UPLOADS = "profileImages/"
+        const val DATABASE_PATH_UPLOADS = "users"
     }
 }

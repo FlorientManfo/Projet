@@ -3,12 +3,115 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/app_background"
+    android:padding="20sp"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/profile_title"/>
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/profile_title"
+            app:titleTextAppearance="@style/TitleBold"
+            app:titleTextColor="@color/white"
+            android:textAlignment="center"
+            app:menu="@menu/profile_top_menu"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentTop="true"/>
+
+        <RelativeLayout
+            android:id="@+id/information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topBar"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10sp"
+            android:paddingLeft="10sp"
+            android:paddingRight="20sp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="100sp"
+                android:layout_height="100sp"
+                android:layout_marginRight="5sp"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/profileImage"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/userName"
+                    style="@style/TitleRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7sp"
+                    android:text="User name"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/phoneNumber"
+                    style="@style/TitleRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/userName"
+                    android:layout_marginTop="15sp"
+                    android:text="Phone"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:layout_marginLeft="10sp"
+                android:id="@+id/editButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_edit_24" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/orderListTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TitleBold"
+            android:layout_below="@id/information"
+            android:text="Recent orders"
+            android:layout_marginTop="30sp"
+            android:layout_marginBottom="10sp"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="20sp"
+            android:layout_below="@id/orderListTitle"
+            android:id="@+id/orderList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/order_item"/>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
 </FrameLayout>

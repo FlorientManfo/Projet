@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/openCamera"
+        android:title="Take a photo"
+        app:showAsAction="always"
+        android:iconTint="@color/app_background"
+        android:icon="@drawable/ic_baseline_camera_alt_24"/>
+
+    <item
+        android:iconTint="@color/app_background"
+        android:id="@+id/openGallery"
+        android:icon="@drawable/ic_baseline_image_24"
+        app:showAsAction="always"
+        android:title="Open your gallery"/>
+</menu>

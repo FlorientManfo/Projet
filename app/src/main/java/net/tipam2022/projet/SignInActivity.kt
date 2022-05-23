@@ -2,6 +2,7 @@ package net.tipam2022.projet
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +17,14 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import net.tipam2022.projet.databinding.ActivitySignInBinding
+import net.tipam2022.projet.entities.User
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -26,7 +34,6 @@ class SignInActivity : AppCompatActivity() {
     lateinit var back: ImageButton
 
     // variable for FirebaseAuth class
-    private val pattern = Regex("[6][7,5,8,9]\\d{7}")
     private lateinit var resendToken: ForceResendingToken
     private lateinit var callbacks: OnVerificationStateChangedCallbacks
     private var checkIng: Boolean = false
@@ -38,6 +45,9 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         next = binding.next
         back = binding.back
+
+        storageReference = FirebaseStorage.getInstance().getReference(Constants.STORAGE_PATH_UPLOADS)
+        databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS)
 
         binding.phoneNumber.doOnTextChanged { text, start, before, count ->
             var currentText = binding.phoneNumber.text.toString().trim()
@@ -56,11 +66,13 @@ class SignInActivity : AppCompatActivity() {
         binding.userName.doOnTextChanged { text, start, before, count ->
             UserName = text.toString()
         }
+
         next.setOnClickListener {
             if(checkIng)
                 authenticate()
-            else
+            else{
                 getOtp()
+            }
         }
         back.setOnClickListener {
             back.visibility = View.GONE
@@ -73,11 +85,13 @@ class SignInActivity : AppCompatActivity() {
         callbacks = object : OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                binding.progress.visibility = View.GONE
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
+                binding.progress.visibility = View.GONE
                 Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
             }
 
@@ -85,6 +99,7 @@ class SignInActivity : AppCompatActivity() {
                 verificationId: String,
                 token: ForceResendingToken
             ) {
+                binding.progress.visibility = View.GONE
                 Log.d("TAG", "onCodeSent:$verificationId")
                 storedVerificationId = verificationId
                 resendToken = token
@@ -104,6 +119,8 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun getOtp(){
+
+        binding.progress.visibility = View.VISIBLE
         var phone = binding?.phoneNumber.text.toString()
         var userName = binding?.userName.text.toString()
         if(!phone.isNullOrEmpty() && phone.matches(pattern)){
@@ -119,6 +136,8 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun authenticate(){
+
+        binding.progress.visibility = View.VISIBLE
         val otp = binding.otp.text.toString().trim()
         if(otp.isNotEmpty()){
             val credential : PhoneAuthCredential = PhoneAuthProvider.getCredential(
@@ -144,8 +163,9 @@ class SignInActivity : AppCompatActivity() {
         auth?.signInWithCredential(credential)
         ?.addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                startActivity(Intent(applicationContext, WelcomeActivity::class.java))
                 savePhoneNumber()
+                startActivity(Intent(applicationContext, WelcomeActivity::class.java))
+                addDataToFirebase()
                 finish()
             } else {
                 if (task.exception is FirebaseAuthInvalidCredentialsException) {
@@ -153,6 +173,28 @@ class SignInActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun addDataToFirebase() {
+
+        databaseReference!!.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var user = User(
+                    PhoneNumber!!,
+                    UserName!!,
+                    null,
+                    null,
+                    Date().toString(),
+                    null
+                )
+                databaseReference!!.child(PhoneNumber!!).setValue(user)
+                println("--------------->Save done")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                println("--------------->$error")
+            }
+        })
     }
 
     private fun isRegistered(currentPhone: String?): Boolean{
@@ -164,11 +206,18 @@ class SignInActivity : AppCompatActivity() {
         println("------------->$currentPhone")
         return PhoneNumber == currentPhone
     }
+
     private fun savePhoneNumber(){
         val sharedPref = getSharedPreferences("profile", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.putString("phoneNumber", PhoneNumber)
         editor.putString("userName", UserName)
         editor.commit()
+    }
+
+
+    object Constants {
+        const val STORAGE_PATH_UPLOADS = "profileImages/"
+        const val DATABASE_PATH_UPLOADS = "users"
     }
 }

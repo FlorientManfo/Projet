@@ -10,6 +10,7 @@
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/bottom_bar_background.xml" value="0.169" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/bottom_item_style.xml" value="0.169" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/buy_button.xml" value="0.1485" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/buy_button_background.xml" value="0.138" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/favorite_icon_layer.xml" value="0.1485" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/favorite_icon_layer_on.xml" value="0.1485" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/filter_icon_layer.xml" value="0.1485" />
@@ -25,6 +26,7 @@
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/search_view_background.xml" value="0.1485" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/drawable/vavorite_background.xml" value="0.1485" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/font/app_font.xml" value="0.1125" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/activity_edit_profile.xml" value="0.16" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/activity_main.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/activity_sign_in.xml" value="0.2" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/activity_splash.xml" value="0.19427083333333334" />
@@ -36,11 +38,15 @@
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_favorite.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_phone.xml" value="0.20833333333333334" />
-        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_profile.xml" value="0.20833333333333334" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/fragment_profile.xml" value="0.276707530647986" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/menu_card.xml" value="0.2" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/most_popular_card.xml" value="0.33" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/layout/order_item.xml" value="0.22" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/menu/bottom_menu.xml" value="0.20833333333333334" />
         <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/menu/home_top_menu.xml" value="0.20833333333333334" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/menu/profile_image_option.xml" value="0.19537037037037036" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/menu/profile_top_menu.xml" value="0.20833333333333334" />
+        <entry key="..\:/PAM2/GestionDeProjetInformatique/Projet/app/src/main/res/xml/provider_paths_app.xml" value="0.1" />
       </map>
     </option>
   </component>

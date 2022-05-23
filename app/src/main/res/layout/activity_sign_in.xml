@@ -49,6 +49,7 @@
 
             <EditText
                 android:id="@+id/phoneNumber"
+                style="@style/TextRegular"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@drawable/input_background"
@@ -57,13 +58,13 @@
                 android:inputType="phone"
                 android:padding="15dp"
                 android:textAlignment="center"
-                style="@style/TextRegular"
                 android:textColor="@color/white"
                 android:textColorHint="@color/input_hint"
                 android:textSize="30sp" />
 
             <EditText
                 android:id="@+id/userName"
+                style="@style/TextRegular"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="20dp"
@@ -72,7 +73,6 @@
                 android:hint="User name"
                 android:inputType="text"
                 android:padding="15dp"
-                style="@style/TextRegular"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textColorHint="@color/input_hint"
@@ -91,6 +91,7 @@
             android:visibility="gone">
 
             <TextView
+                style="@style/TextRegular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="We sent you a verification code please enter it here to continue"
@@ -98,7 +99,6 @@
                 android:lineHeight="30sp"
                 android:lineSpacingMultiplier="2"
                 android:padding="15dp"
-                style="@style/TextRegular"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
@@ -106,6 +106,7 @@
 
             <EditText
                 android:id="@+id/otp"
+                style="@style/TextRegular"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="20dp"
@@ -113,7 +114,6 @@
                 android:hint="Verification code"
                 android:inputType="number"
                 android:padding="15dp"
-                style="@style/TextRegular"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textColorHint="@color/input_hint"
@@ -140,5 +140,15 @@
             android:textAlignment="center"
             style="@style/TitleRegular"/>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progress_bar"
+        android:visibility="gone" />
 
 </RelativeLayout>

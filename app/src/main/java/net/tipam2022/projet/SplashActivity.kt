@@ -1,6 +1,8 @@
 package net.tipam2022.projet
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
@@ -29,6 +31,7 @@ class SplashActivity: AppCompatActivity(){
         // we used the postDelayed(Runnable, time) method
         // to send a message with a delayed time.
         Handler().postDelayed({
+            getShearedPreferences()
             if(currentUser != null){
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
@@ -36,10 +39,15 @@ class SplashActivity: AppCompatActivity(){
                 val intent = Intent(this, SignInActivity::class.java)
                 startActivity(intent)
             }
-            finish()
         }, 3000)
 
         setContentView(binding.root)
+    }
+
+    private fun getShearedPreferences(){
+        var sharedPreferences = getSharedPreferences("profile", Context.MODE_PRIVATE)
+        UserName = sharedPreferences.getString("userName", null)
+        PhoneNumber = sharedPreferences.getString("phoneNumber", null)
     }
 
 }
