@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "760748504463",
+    "firebase_url": "https://projet-e7cff-default-rtdb.firebaseio.com",
+    "project_id": "projet-e7cff",
+    "storage_bucket": "projet-e7cff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760748504463:android:589d0b6e80ca1ab61d87fa",
+        "android_client_info": {
+          "package_name": "net.tipam2022.projet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760748504463-og171ej0hrblfbcf12fpjf2lvsrut68c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.tipam2022.projet",
+            "certificate_hash": "cc2f07cc442a63f68b0dea1c5d2813c1061f6d2c"
+          }
+        },
+        {
+          "client_id": "760748504463-ks037k01ka962rg5qmtu093na250lae9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3E1y4uLUklT83i6yEu0tQEKo0saULhX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "760748504463-ks037k01ka962rg5qmtu093na250lae9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
