@@ -49,13 +49,10 @@ class CategoryAdapter(var context: Context,
 
    class ViewHolder(itemView: View, var clickLister: (Int)->Unit) :
        RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var imageView: ImageView
-        var cardView: CardView
-        init {
-            cardView = itemView.findViewById(R.id.cardView)
-            imageView = itemView.findViewById(R.id.categoryImage)
-        }
-        override fun onClick(p0: View?) {
+        var imageView: ImageView = itemView.findViewById(R.id.categoryImage)
+       var cardView: CardView = itemView.findViewById(R.id.cardView)
+
+       override fun onClick(p0: View?) {
             val position = adapterPosition
             clickLister(position)
         }

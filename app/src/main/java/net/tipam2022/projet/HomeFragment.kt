@@ -1,5 +1,7 @@
 package net.tipam2022.projet
 
+import android.content.Intent
+import android.icu.text.Transliterator
 import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
@@ -17,6 +19,7 @@ import net.tipam2022.projet.databinding.FragmentHomeBinding
 import net.tipam2022.projet.entities.Category
 import net.tipam2022.projet.entities.Menu
 import org.jetbrains.annotations.Nullable
+import java.nio.file.attribute.AclEntry
 
 
 /**
@@ -46,28 +49,40 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         progressBar = binding.progress
         categoryRecyclerView = binding.categoriesList
+        menuRecyclerView = binding.categoryMenu
 
         categories = ArrayList()
-        categoryAdapter = CategoryAdapter(requireContext(), categories!!){it -> categoryClickLister(it)}
+        categoryAdapter = CategoryAdapter(requireContext(), categories!!){ it ->
+            categoryClickLister(it)
+        }
         categoryRecyclerView?.adapter = categoryAdapter
         getCategories()
 
         menus = ArrayList()
-        menuAdapter = MenuAdapter(requireContext(), menus!!){it -> menuClickLister(it)}
+        menuAdapter = MenuAdapter(requireContext(), menus!!){ it ->
+            menuClickLister(it)
+        }
         menuRecyclerView?.adapter = menuAdapter
-        getCategories()
+        getMenus()
 
         return binding.root
     }
 
 
     private fun categoryClickLister(position: Int): Unit{
-        menus = menus?.filter {it -> it.categoryId ==
-                categories?.get(position)?.categoryId} as ArrayList<Menu>
+        menus = menus?.filter {
+                it -> it.categoryId == categories?.get(position)?.categoryId
+        } as ArrayList<Menu>
     }
 
     private fun menuClickLister(position: Int): Unit{
+        var menu = menus?.get(position)
+        var bundle = Bundle()
+        bundle.putSerializable("selectedMenu", menu)
 
+        var intent = Intent(requireContext(), DetailsActivity::class.java)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
 
@@ -118,15 +133,15 @@ class HomeFragment : Fragment() {
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_MENU)
         storageReference = FirebaseStorage.getInstance().getReference(Constants.STORAGE_PATH_MENU)
 
-        categories?.clear()
+        menus?.clear()
         databaseReference!!.addChildEventListener(object : ChildEventListener {
             override fun onChildAdded(
                 snapshot: DataSnapshot,
                 @Nullable previousChildName: String?
             ) {
                 progressBar?.visibility = View.GONE
-                snapshot.getValue(Category::class.java)?.let { categories?.add(it) }
-                categoryAdapter?.notifyDataSetChanged()
+                snapshot.getValue(Menu::class.java)?.let { menus?.add(it) }
+                menuAdapter?.notifyDataSetChanged()
             }
 
             override fun onChildChanged(
@@ -134,11 +149,11 @@ class HomeFragment : Fragment() {
                 @Nullable previousChildName: String?
             ) {
                 progressBar?.visibility = View.GONE
-                categoryAdapter?.notifyDataSetChanged()
+                menuAdapter?.notifyDataSetChanged()
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                categoryAdapter?.notifyDataSetChanged()
+                menuAdapter?.notifyDataSetChanged()
                 progressBar?.visibility = View.GONE
             }
 
@@ -146,19 +161,21 @@ class HomeFragment : Fragment() {
                 snapshot: DataSnapshot,
                 @Nullable previousChildName: String?
             ) {
-                categoryAdapter?.notifyDataSetChanged()
+                menuAdapter?.notifyDataSetChanged()
                 progressBar?.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {
-                println("----------------->${error.message}")
+                println("-----------------> ${error.message}")
             }
         })
     }
 
+
+
     object Constants {
-        const val STORAGE_PATH_MENU = "categoryImages/"
-        const val DATABASE_PATH_MENU = "categories"
+        const val STORAGE_PATH_MENU = "menuImages/"
+        const val DATABASE_PATH_MENU = "menus"
         const val STORAGE_PATH_CATEGORY = "categoryImages/"
         const val DATABASE_PATH_CATEGORY = "categories"
     }

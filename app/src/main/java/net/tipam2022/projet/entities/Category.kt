@@ -12,7 +12,7 @@ class Category: Serializable {
     // DataSnapshot.getValue(User.class)
     constructor() {}
     constructor(categoryId: String, categoryName: String,
-            categoryDescriptions: String ,imageUrl: String?, ) {
+            categoryDescription: String, imageUrl: String?) {
         this.categoryId = categoryId
         this.categoryName = categoryName
         this.categoryDescription = categoryDescription

@@ -52,7 +52,9 @@ class ProfileFragment : Fragment() {
 
 
         orders = ArrayList()
-        orderAdapter = CategoryAdapter(requireContext(), orders!!){it -> orderClickLister(it)}
+        orderAdapter = CategoryAdapter(requireContext(), orders!!){ it ->
+            orderClickLister(it)
+        }
         orderRecyclerView?.adapter = orderAdapter
         getOrders()
 

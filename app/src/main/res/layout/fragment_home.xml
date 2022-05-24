@@ -117,6 +117,7 @@
                         android:orientation="horizontal"
                         android:layout_marginBottom="20sp"
                         tools:listitem="@layout/most_popular_card"/>
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
