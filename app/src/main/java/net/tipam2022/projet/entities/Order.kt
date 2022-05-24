@@ -3,16 +3,18 @@ package net.tipam2022.projet.entities
 import java.io.Serializable
 
 class Order: Serializable {
-    var userPhoneNumber: String? = null
-    var menuId: String? = null
+    var orderId: Int = 0
+    var userPhoneNumber: Long = 0
+    var menuId: Int = 0
     var quantity: Int = 0
     var price: Float = 0f
     var date: String? = null
 
     constructor()
-    constructor(userPhoneNumber: String, menuId: String,
+    constructor(userPhoneNumber: Long, orderId: Int, menuId: Int,
                 quantity: Int, price: Float, date: String){
         this.menuId = menuId
+        this.orderId = orderId
         this.price = price
         this.userPhoneNumber = userPhoneNumber
         this.date = date

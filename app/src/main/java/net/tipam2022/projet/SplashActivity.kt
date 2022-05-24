@@ -47,7 +47,7 @@ class SplashActivity: AppCompatActivity(){
     private fun getShearedPreferences(){
         var sharedPreferences = getSharedPreferences("profile", Context.MODE_PRIVATE)
         UserName = sharedPreferences.getString("userName", null)
-        PhoneNumber = sharedPreferences.getString("phoneNumber", null)
+        PhoneNumber = sharedPreferences.getLong("phoneNumber", 0)
     }
 
 }

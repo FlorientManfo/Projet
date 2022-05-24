@@ -3,7 +3,7 @@ package net.tipam2022.projet.entities
 import java.io.Serializable
 
 class User: Serializable {
-    var userPhoneNumber: String? = null
+    var userPhoneNumber: Long = 0
     var userName: String? = null
     var email: String? = null
     var birthDay: String? = null
@@ -13,7 +13,7 @@ class User: Serializable {
     // Default constructor required for calls to
     // DataSnapshot.getValue(User.class)
     constructor() {}
-    constructor(userPhoneNumber: String,userName: String,email: String?,
+    constructor(userPhoneNumber: Long,userName: String,email: String?,
                 birthDay: String?, createdAt: String, profileUrl: String?, ) {
         this.userPhoneNumber = userPhoneNumber
         this.userName = userName

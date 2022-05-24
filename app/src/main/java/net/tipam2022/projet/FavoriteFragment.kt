@@ -3,7 +3,6 @@ package net.tipam2022.projet
 import android.os.Bundle
 import net.tipam2022.projet.CartFragment
 import net.tipam2022.projet.R
-import net.tipam2022.projet.DetailsFragment
 import net.tipam2022.projet.FavoriteFragment
 import net.tipam2022.projet.HomeFragment
 import net.tipam2022.projet.ProfileFragment

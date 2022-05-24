@@ -3,20 +3,20 @@ package net.tipam2022.projet.entities
 import java.io.Serializable
 
 class Category: Serializable {
-    var categoryId: String? = null
+    var categoryId: Int = 0
     var categoryName: String? = null
     var categoryDescription: String? = null
-    var imageUrl: String? = null
+    var image: String? = null
 
     // Default constructor required for calls to
     // DataSnapshot.getValue(User.class)
     constructor() {}
-    constructor(categoryId: String, categoryName: String,
-            categoryDescriptions: String ,imageUrl: String?, ) {
+    constructor(categoryId: Int, categoryName: String,
+            categoryDescription: String ,image: String?, ) {
         this.categoryId = categoryId
         this.categoryName = categoryName
         this.categoryDescription = categoryDescription
-        this.imageUrl = imageUrl
+        this.image = image
     }
 
     override fun equals(other: Any?): Boolean {

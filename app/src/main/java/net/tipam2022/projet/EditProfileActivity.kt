@@ -16,6 +16,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -32,6 +33,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import net.tipam2022.projet.EditProfileActivity.Constants.DATABASE_PATH_UPLOADS
+import net.tipam2022.projet.EditProfileActivity.Constants.STORAGE_PATH_UPLOADS
 import net.tipam2022.projet.databinding.ActivityEditProfileBinding
 import net.tipam2022.projet.entities.User
 import java.io.File
@@ -55,10 +58,11 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.editImageProfileButton.setOnClickListener {editProfileImage()}
-        binding.currentPhoneNumber.text = PhoneNumber
+        binding.currentPhoneNumber.text = PhoneNumber.toString()
         binding.currentUserName.text = UserName
 
-        binding.progress.visibility = View.VISIBLE
+        binding.progress.visibility= View.VISIBLE
+
         getInformation(this)
 
         binding.topBar.setNavigationOnClickListener {
@@ -103,7 +107,7 @@ class EditProfileActivity : AppCompatActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     val bitmap = BitmapFactory.decodeStream(
                         getContentResolver().openInputStream(mUri!!))
-                   binding.profileImage!!.setImageBitmap(bitmap)
+                    binding.profileImage!!.setImageBitmap(bitmap)
                     Glide.with(binding.profileImage).load(bitmap).into(binding.profileImage)
                 }
             OPERATION_CHOOSE_PHOTO ->
@@ -166,6 +170,7 @@ class EditProfileActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+
         popupMenu.show()
     }
 
@@ -183,10 +188,10 @@ class EditProfileActivity : AppCompatActivity() {
         }
         else{
             showDialog(this, "title",
-        "Bad information please check fields and try again",
-"OK",null,
-            {dinterface, it ->},
-            {dinterface, it ->})
+                "Bad information please check fields and try again",
+                "OK",null,
+                {dinterface, it ->},
+                {dinterface, it ->})
         }
     }
 
@@ -201,7 +206,7 @@ class EditProfileActivity : AppCompatActivity() {
         var sharedPreferences = getSharedPreferences("profile", Context.MODE_PRIVATE)
         var editor = sharedPreferences.edit()
         editor.putString("userName", UserName)
-        editor.putString("phoneNumber", PhoneNumber)
+        editor.putLong("phoneNumber", PhoneNumber)
         editor.commit()
     }
 
@@ -254,6 +259,8 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun uploadFile(imagePath: Uri?) {
+        databaseReference = FirebaseDatabase.getInstance().getReference(DATABASE_PATH_UPLOADS)
+        storageReference = FirebaseStorage.getInstance().getReference(STORAGE_PATH_UPLOADS)
 
         //creating the upload object to store uploaded image details
         val user = User(
@@ -291,7 +298,7 @@ class EditProfileActivity : AppCompatActivity() {
                     sRef.downloadUrl.addOnSuccessListener {
                         user.profileUrl = it.toString()
                         println("it------------------->$it")
-                        databaseReference?.child(PhoneNumber!!)?.setValue(user)
+                        databaseReference?.child(PhoneNumber.toString())?.setValue(user)
                         println("user.profileUrl -------------> ${user.profileUrl}")
                     }
                 }
@@ -303,7 +310,7 @@ class EditProfileActivity : AppCompatActivity() {
                     binding.progress.visibility = View.VISIBLE
                 }
         } else if(currentUser?.profileUrl == null && mUri == null){
-            databaseReference?.child(PhoneNumber!!)?.setValue(user)
+            databaseReference?.child(PhoneNumber.toString())?.setValue(user)
         }else{
             showDialog(this, "title",
                 "Something went wrong ",
@@ -419,6 +426,7 @@ class EditProfileActivity : AppCompatActivity() {
             else -> false
         }
     }
+
 
     object Constants {
         const val STORAGE_PATH_UPLOADS = "profileImages/"

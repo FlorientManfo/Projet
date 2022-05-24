@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -56,6 +57,8 @@ class ProfileFragment : Fragment() {
         orderRecyclerView?.adapter = orderAdapter
         getOrders()
 
+        binding.topBar.setOnMenuItemClickListener { menuItemListener(it) }
+
         return binding.root
     }
 
@@ -91,7 +94,7 @@ class ProfileFragment : Fragment() {
                     Glide.with(binding.profileImage).load(currentUser.profileUrl).into(binding.profileImage)
 
                 println(currentUser.profileUrl)
-                binding.phoneNumber.text = currentUser.userPhoneNumber
+                binding.phoneNumber.text = currentUser.userPhoneNumber.toString()
                 binding.userName.text = currentUser.userName
             }
             override fun onCancelled(databaseError: DatabaseError) {
@@ -155,6 +158,25 @@ class ProfileFragment : Fragment() {
 
     private fun orderClickLister(orderId: Int){
 
+    }
+
+    private fun menuItemListener(item: MenuItem): Boolean{
+        return when (item.itemId) {
+            R.id.signOut -> {
+                auth = FirebaseAuth.getInstance()
+                if (auth?.currentUser != null) {
+                    auth?.signOut()
+                    startActivity(Intent(activity, SignInActivity::class.java))
+                }
+                println("Logout!")
+                true
+            }
+            R.id.notification -> {
+                // save profile changes
+                true
+            }
+            else -> false
+        }
     }
 
     object Constants {

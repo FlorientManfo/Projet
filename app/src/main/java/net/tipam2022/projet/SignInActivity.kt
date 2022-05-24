@@ -50,12 +50,12 @@ class SignInActivity : AppCompatActivity() {
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS)
 
         binding.phoneNumber.doOnTextChanged { text, start, before, count ->
-            var currentText = binding.phoneNumber.text.toString().trim()
-            if(!currentText?.matches(pattern)!!){
+            var currentText = binding.phoneNumber.text.toString().trim().toLong()
+            if(!currentText?.toString().matches(pattern)!!){
                 binding.phoneNumber.setTextColor(getColor(R.color.input_error))
             }else{
                 binding.phoneNumber.setTextColor(getColor(R.color.white))
-                PhoneNumber = currentText
+                PhoneNumber = currentText.toLong()
             }
             if(isRegistered(currentText)){
                 binding.userName.visibility = View.GONE
@@ -127,7 +127,7 @@ class SignInActivity : AppCompatActivity() {
             if(UserName == null)
                 Toast.makeText(this, "You should provide a user name", Toast.LENGTH_SHORT).show()
             else{
-                PhoneNumber = phone
+                PhoneNumber = phone.toLong()
                 phone = "+237$phone"
                 sendVerificationCode(phone)
             }
@@ -187,7 +187,7 @@ class SignInActivity : AppCompatActivity() {
                     Date().toString(),
                     null
                 )
-                databaseReference!!.child(PhoneNumber!!).setValue(user)
+                databaseReference!!.child(PhoneNumber?.toString()).setValue(user)
                 println("--------------->Save done")
             }
 
@@ -197,9 +197,9 @@ class SignInActivity : AppCompatActivity() {
         })
     }
 
-    private fun isRegistered(currentPhone: String?): Boolean{
+    private fun isRegistered(currentPhone: Long): Boolean{
         var sharedPreferences = getSharedPreferences("profile", Context.MODE_PRIVATE)
-        PhoneNumber = sharedPreferences.getString("phoneNumber", null)
+        PhoneNumber = sharedPreferences.getLong("phoneNumber", 0)
         UserName = sharedPreferences.getString("userName", null)
         println("---------------------->$UserName")
         println("---------------->$PhoneNumber")
@@ -210,7 +210,7 @@ class SignInActivity : AppCompatActivity() {
     private fun savePhoneNumber(){
         val sharedPref = getSharedPreferences("profile", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        editor.putString("phoneNumber", PhoneNumber)
+        editor.putLong("phoneNumber", PhoneNumber)
         editor.putString("userName", UserName)
         editor.commit()
     }

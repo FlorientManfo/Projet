@@ -17,4 +17,5 @@
     <color name="input_border">#FDB81A</color>
     <color name="input_hint">#6AFAF9F9</color>
     <color name="input_error">#F44336</color>
+    <color name="active_item">#B647DF</color>
 </resources>

@@ -4,15 +4,15 @@ import java.io.Serializable
 
 class Menu: Serializable {
 
-    var categoryId: String? = null
-    var menuId: String? = null
+    var categoryId: Int = 0
+    var menuId: Int= 0
     var menuName: String? = null
     var menuPrice: Float = 0f
     var menuImageUrl: String? = null
     var menuDescription: String? = null
 
     constructor()
-    constructor(categoryId: String, menuId: String, menuImageUrl: String?,
+    constructor(categoryId: Int, menuId: Int, menuImageUrl: String?,
                 menuName: String, menuPrice: Float, menuDescription: String?){
         this.categoryId = categoryId
         this.menuId = menuId

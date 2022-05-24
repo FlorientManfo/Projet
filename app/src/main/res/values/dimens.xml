@@ -2,5 +2,5 @@
 <resources>
     <dimen name="drawable_icon_size">50dp</dimen>
     <dimen name="drawable_icon_size_medium">30dp</dimen>
-    <dimen name="small_image_view">90dp</dimen>
+    <dimen name="small_image_view">70dp</dimen>
 </resources>

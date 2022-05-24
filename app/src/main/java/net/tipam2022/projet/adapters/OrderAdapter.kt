@@ -12,8 +12,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import net.tipam2022.projet.R
+import net.tipam2022.projet.entities.Category
+import net.tipam2022.projet.entities.Menu
 import net.tipam2022.projet.entities.Order
 import net.tipam2022.projet.storageReference
 
@@ -34,11 +40,12 @@ class OrderAdapter(var context: Context,
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val order = orders?.get(position)
-        Glide.with(holder.imageView).load(findMenuImage(order.menuId)).into(holder.imageView)
+        var menu  = getMenu(order.menuId)
+        Glide.with(holder.imageView).load(menu?.menuImageUrl).into(holder.imageView)
         holder.date.text = order.date
         holder.quantity.text = order.quantity.toString()
         holder.price.text = "${order.price.toString()} XAF"
-        holder.menu.text = order.menuId
+        holder.menu.text = menu?.menuName
     }
 
     override fun getItemCount(): Int {
@@ -65,16 +72,21 @@ class OrderAdapter(var context: Context,
         }
     }
 
-    private fun findMenuImage(menuId: String?): String?{
-        storageReference = FirebaseStorage.getInstance().getReference("menus")
-        var generatedFilePath: String? = null
-        storageReference!!.child("$menuId.png").downloadUrl.addOnSuccessListener(
-            OnSuccessListener<Uri?> {
-                // Got the download URL for 'profileImages/default_profile.png'
-                val downloadUri: Uri = it
-                generatedFilePath = downloadUri.toString() /// The string(file link) that you need
-            }).addOnFailureListener(OnFailureListener {
+    private fun getMenu(menuId: Int): Menu?{
+        var databaseReference = FirebaseDatabase.getInstance().getReference("menus/$menuId")
+        var menu: Menu? = null
+        databaseReference!!.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (postSnapshot in snapshot.children) {
+                    val m: Menu? = postSnapshot.getValue(Menu::class.java)
+                    if(m?.menuId == menuId)
+                        menu = m
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                TODO()
+            }
         })
-        return generatedFilePath
+        return menu
     }
 }
