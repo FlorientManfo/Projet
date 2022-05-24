@@ -46,6 +46,7 @@ class CategoryAdapter(var context: Context,
         holder.imageView.setOnClickListener {
             selectedItemPosition = position
             callback(position)
+            println("-------------------------->$position")
             notifyDataSetChanged()
         }
         if(selectedItemPosition == position){
@@ -72,7 +73,7 @@ class CategoryAdapter(var context: Context,
             OnSuccessListener<Uri?> {
                 val downloadUri: Uri = it
                 generatedFilePath = downloadUri.toString()
-                Glide.with(view).load(generatedFilePath).into(view)
+                Glide.with(context).load(generatedFilePath).into(view)
                 println("--------->Default image url $generatedFilePath")
             }).addOnFailureListener(OnFailureListener {
         })

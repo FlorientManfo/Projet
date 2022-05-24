@@ -77,3 +77,14 @@ fun String?.toBitmap(): Bitmap?{
     var imageBytes = Base64.decode(this, 0)
     return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 }
+
+fun Bitmap.toBase64(): String? {
+    if(this!=null){
+        ByteArrayOutputStream().apply {
+            compress(Bitmap.CompressFormat.JPEG,60,this)
+            var byteArray = this.toByteArray()
+            return Base64.encodeToString(byteArray, Base64.DEFAULT)
+        }
+    }
+    return null
+}

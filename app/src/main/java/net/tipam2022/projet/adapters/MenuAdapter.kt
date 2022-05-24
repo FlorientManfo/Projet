@@ -18,9 +18,8 @@ import net.tipam2022.projet.entities.Menu
 
 class MenuAdapter(
     var context: Context,
-    var menus: ArrayList<Menu>, var callback: (Int)->Unit) :
+    private var menus: ArrayList<Menu>, var callback: (Int)->Unit) :
     RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,7 +32,7 @@ class MenuAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val menu = menus?.get(position)
-        Glide.with(holder.imageView).load(menu?.menuImageUrl).into(holder.imageView)
+        Glide.with(context).load(menu?.menuImageUrl).into(holder.imageView)
         holder.price.text = menu.menuPrice.toString()
         holder.name.text = menu.menuName.toString()
     }
@@ -42,20 +41,15 @@ class MenuAdapter(
         return menus.size
     }
 
-   class ViewHolder(itemView: View, var clickLister: (Int)->Unit) :
+   class ViewHolder(itemView: View, var clickListener: (Int)->Unit):
        RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var imageView: ImageView
-        var price: TextView
-        var name: TextView
+       var imageView: ImageView = itemView.findViewById(R.id.menuImage)
+       var price: TextView = itemView.findViewById(R.id.menuPrice)
+       var name: TextView = itemView.findViewById(R.id.menuName)
 
-        init {
-            imageView = itemView.findViewById(R.id.menuImage)
-            price = itemView.findViewById(R.id.menuPrice)
-            name = itemView.findViewById(R.id.menuName)
-        }
-        override fun onClick(p0: View?) {
+       override fun onClick(p0: View?) {
             val position = adapterPosition
-            clickLister(position)
-        }
-    }
+            clickListener(position)
+       }
+   }
 }

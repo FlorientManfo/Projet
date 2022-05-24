@@ -39,19 +39,17 @@
                 android:id="@+id/profileImage"
                 android:layout_width="100sp"
                 android:layout_height="100sp"
-                android:layout_marginRight="5sp"
+                android:layout_marginRight="20sp"
                 android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="56dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="51dp"
-                android:layout_toStartOf="@+id/editButton"
                 android:layout_toRightOf="@id/profileImage"
                 android:gravity="center"
+                android:layout_marginRight="20sp"
                 android:orientation="vertical">
 
                 <TextView
@@ -89,13 +87,13 @@
 
         <TextView
             android:id="@+id/orderListTitle"
+            style="@style/TitleBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TitleBold"
             android:layout_below="@id/information"
-            android:text="Recent orders"
             android:layout_marginTop="30sp"
-            android:layout_marginBottom="10sp"/>
+            android:layout_marginBottom="10sp"
+            android:text="Recent orders" />
 
 
         <androidx.recyclerview.widget.RecyclerView

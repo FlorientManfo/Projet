@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         progressBar = binding.progress
-
+        progressBar?.visibility = View.VISIBLE
 
         categoryRecyclerView = binding.categoriesList
         categories = arrayListOf()
@@ -69,6 +69,7 @@ class HomeFragment : Fragment() {
     private fun categoryClickLister(position: Int): Unit{
         getMenus()
         Toast.makeText(requireContext(), "$position", Toast.LENGTH_LONG)
+        println("-------------------menuPosition == $position")
         menus = menus?.filter {it -> it.categoryId ==
                 categories?.get(position)?.categoryId} as ArrayList<Menu>
     }

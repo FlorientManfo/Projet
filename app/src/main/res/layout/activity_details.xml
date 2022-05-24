@@ -21,7 +21,7 @@
     <RelativeLayout
         android:id="@+id/carousel"
         android:layout_width="match_parent"
-        android:layout_height="350sp"
+        android:layout_height="400sp"
         android:layout_below="@id/topBar"
         android:layout_marginTop="30sp"
         android:padding="20sp">
@@ -89,17 +89,17 @@
 
     <TextView
         android:id="@+id/detailsParagraph"
+        style="@style/TextRegular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/detailsText"
-        android:layout_marginBottom="20sp"
-        android:text="Small text"
-        style="@style/TextRegular"
-        android:textColor="@color/input_hint"
         android:layout_marginLeft="20sp"
         android:layout_marginRight="20sp"
+        android:layout_marginBottom="20sp"
         android:inputType="textMultiLine"
-        android:textAlignment="textStart" />
+        android:text="Small text"
+        android:textAlignment="textStart"
+        android:textColor="@color/input_hint" />
 
     <RelativeLayout
         android:id="@+id/menuStatus"

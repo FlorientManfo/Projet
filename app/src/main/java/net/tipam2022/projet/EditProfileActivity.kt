@@ -16,7 +16,6 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -27,6 +26,7 @@ import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import net.tipam2022.projet.EditProfileActivity.Constants.DATABASE_PATH_UPLOADS
-import net.tipam2022.projet.EditProfileActivity.Constants.STORAGE_PATH_UPLOADS
 import net.tipam2022.projet.databinding.ActivityEditProfileBinding
 import net.tipam2022.projet.entities.User
 import java.io.File
@@ -73,7 +72,6 @@ class EditProfileActivity : AppCompatActivity() {
         binding.buttonCancel.setOnClickListener { cancel() }
         binding.buttonSave.setOnClickListener { saveNewData() }
 
-        storageReference = FirebaseStorage.getInstance().getReference(Constants.STORAGE_PATH_UPLOADS)
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_UPLOADS)
 
     }
@@ -84,7 +82,7 @@ class EditProfileActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantedResults)
         when(requestCode){
             OPERATION_CHOOSE_PHOTO ->
-                if (grantedResults.isNotEmpty() && grantedResults.get(0) ==
+                if (grantedResults.isNotEmpty() && grantedResults.get(0) ===
                     PackageManager.PERMISSION_GRANTED){
                     openGallery()
                 }else {
@@ -108,14 +106,14 @@ class EditProfileActivity : AppCompatActivity() {
                     val bitmap = BitmapFactory.decodeStream(
                         getContentResolver().openInputStream(mUri!!))
                     binding.profileImage!!.setImageBitmap(bitmap)
-                    Glide.with(binding.profileImage).load(bitmap).into(binding.profileImage)
+                    Glide.with(getApplicationContext()).load(bitmap).into(binding.profileImage)
                 }
             OPERATION_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
                     mUri = data?.data
                     if (Build.VERSION.SDK_INT >= 19) {
                         handleImageOnKitkat(data)
-                        Glide.with(binding.profileImage).load(data?.data!!).into(binding.profileImage)
+                        Glide.with(getApplicationContext()).load(data?.data!!).into(binding.profileImage)
                     }
                 }
 
@@ -175,10 +173,11 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun saveNewData(){
+        binding.progress.visibility = View.VISIBLE
         var email = binding.newEmail.text.toString()
         var newName = binding.newUserName.text.toString()
         var birthDay = binding.birthDay.text.toString()
-        if(email!=null && newName != null && birthDay!= null){
+        if(email!=null || newName != null || birthDay!= null || mUri != null){
             UserName = newName
             currentUser?.userName = newName
             currentUser?.birthDay = birthDay
@@ -229,12 +228,11 @@ class EditProfileActivity : AppCompatActivity() {
                         currentUser = user!!
                 }
 
-                if(currentUser?.profileUrl == null)
+                if(currentUser?.profile == null)
                     getDefaultProfileImage()
                 else
-                    Glide.with(binding.profileImage).load(currentUser?.profileUrl).into(binding.profileImage);
+                    Glide.with(getApplicationContext()).load(currentUser?.profile.toBitmap()).into(binding.profileImage);
 
-                println("--------------------->"+currentUser?.profileUrl)
                 binding.newEmail.setText(currentUser?.email)
                 binding.newUserName.setText(currentUser?.userName)
                 binding.birthDay.setText(currentUser?.birthDay)
@@ -253,70 +251,53 @@ class EditProfileActivity : AppCompatActivity() {
                 val downloadUri: Uri = it
                 generatedFilePath = downloadUri.toString() /// The string(file link) that you need
                 println("--------->Default image url $generatedFilePath")
-                Glide.with(binding.profileImage).load(generatedFilePath).into(binding.profileImage)
+                Glide.with(getApplicationContext()).load(generatedFilePath).into(binding.profileImage)
             }).addOnFailureListener(OnFailureListener {
         })
     }
 
     private fun uploadFile(imagePath: Uri?) {
         databaseReference = FirebaseDatabase.getInstance().getReference(DATABASE_PATH_UPLOADS)
-        storageReference = FirebaseStorage.getInstance().getReference(STORAGE_PATH_UPLOADS)
-
         //creating the upload object to store uploaded image details
+
         val user = User(
             PhoneNumber!!,
             UserName!!,
             currentUser?.email!!,
             currentUser?.birthDay!!,
             currentUser?.createdAt!!,
-            null
+            currentUser?.profile
         )
 
         var filePath = imagePath
         println("filePath-------------+>$filePath")
         //checking if file is available
         if (filePath != null) {
-            //displaying progress dialog while image is uploading
-            binding.progress.visibility = View.VISIBLE
+            var newImage = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
+            user.profile = newImage.toBase64()
+        }
+        databaseReference?.child("$PhoneNumber")?.setValue(user)?.addOnCompleteListener {
 
-            //getting the storage reference
-            val sRef = storageReference!!.child(
-                "$PhoneNumber." + getFileExtension(
-                    filePath, this
-                )
-            )
-
-            //adding the file to reference
-            sRef!!.putFile(filePath)
-                .addOnSuccessListener { taskSnapshot -> //dismissing the progress dialog
-                    binding.progress.visibility = View.GONE
-
-                    //displaying success toast
-                    Toast.makeText(applicationContext, "File Uploaded ", Toast.LENGTH_LONG).show()
-
-
-                    sRef.downloadUrl.addOnSuccessListener {
-                        user.profileUrl = it.toString()
-                        println("it------------------->$it")
-                        databaseReference?.child(PhoneNumber.toString())?.setValue(user)
-                        println("user.profileUrl -------------> ${user.profileUrl}")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    binding.progress.visibility = View.GONE
-                    Toast.makeText(applicationContext, exception.message, Toast.LENGTH_LONG).show()
-                }
-                .addOnProgressListener { taskSnapshot ->
-                    binding.progress.visibility = View.VISIBLE
-                }
-        } else if(currentUser?.profileUrl == null && mUri == null){
-            databaseReference?.child(PhoneNumber.toString())?.setValue(user)
-        }else{
-            showDialog(this, "title",
-                "Something went wrong ",
-                "OK",null,
-                {dinterface, it ->},
-                {dinterface, it ->})
+            it.addOnSuccessListener {
+                showDialog(this, "title",
+                    "Your informations has been updated !",
+                    "OK",null,
+                    {_,_ ->
+                        binding.progress.visibility = View.GONE
+                        finish()},
+                    {dinterface, it ->})
+            }
+            it.addOnFailureListener {
+                binding.progress.visibility = View.GONE
+                showDialog(this, "title",
+                    "Something went wrong please try again later !",
+                    "OK",null,
+                    {_,_ ->
+                        binding.progress.visibility = View.GONE
+                        finish()},
+                    {dinterface, it ->})
+                println(it.message)
+            }
         }
     }
 
@@ -429,7 +410,6 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     object Constants {
-        const val STORAGE_PATH_UPLOADS = "profileImages/"
         const val DATABASE_PATH_UPLOADS = "users"
     }
 }

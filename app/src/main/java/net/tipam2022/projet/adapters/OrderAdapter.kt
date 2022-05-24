@@ -41,7 +41,7 @@ class OrderAdapter(var context: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val order = orders?.get(position)
         var menu  = getMenu(order.menuId)
-        Glide.with(holder.imageView).load(menu?.menuImageUrl).into(holder.imageView)
+        Glide.with(context).load(menu?.menuImageUrl).into(holder.imageView)
         holder.date.text = order.date
         holder.quantity.text = order.quantity.toString()
         holder.price.text = "${order.price.toString()} XAF"

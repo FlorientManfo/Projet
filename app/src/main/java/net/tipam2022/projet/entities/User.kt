@@ -8,19 +8,19 @@ class User: Serializable {
     var email: String? = null
     var birthDay: String? = null
     var createdAt: String? = null
-    var profileUrl: String? = null
+    var profile: String? = null
 
     // Default constructor required for calls to
     // DataSnapshot.getValue(User.class)
     constructor() {}
     constructor(userPhoneNumber: Long,userName: String,email: String?,
-                birthDay: String?, createdAt: String, profileUrl: String?, ) {
+                birthDay: String?, createdAt: String, profile: String?, ) {
         this.userPhoneNumber = userPhoneNumber
         this.userName = userName
         this.email = email
         this.birthDay = birthDay
         this.createdAt = createdAt
-        this.profileUrl = profileUrl
+        this.profile = profile
     }
 
     override fun equals(other: Any?): Boolean {

@@ -53,7 +53,9 @@ class ProfileFragment : Fragment() {
 
 
         orders = ArrayList()
-        orderAdapter = CategoryAdapter(requireContext(), orders!!){it -> orderClickLister(it)}
+        orderAdapter = CategoryAdapter(requireContext(), orders!!){ it ->
+            orderClickLister(it)
+        }
         orderRecyclerView?.adapter = orderAdapter
         getOrders()
 
@@ -65,7 +67,6 @@ class ProfileFragment : Fragment() {
     private fun goToEdit(){
         var intent = Intent(requireContext(), EditProfileActivity::class.java)
         startActivity(intent)
-        (activity as Activity?)!!.overridePendingTransition(0, 0)
     }
 
     private fun getInformation(context: Context){
@@ -88,12 +89,11 @@ class ProfileFragment : Fragment() {
                         currentUser = user!!
                 }
 
-                if(currentUser.profileUrl == null)
+                if(currentUser.profile == null)
                     getDefaultProfileImage()
                 else
-                    Glide.with(binding.profileImage).load(currentUser.profileUrl).into(binding.profileImage)
+                    Glide.with(requireContext()).load(currentUser.profile.toBitmap()).into(binding.profileImage)
 
-                println(currentUser.profileUrl)
                 binding.phoneNumber.text = currentUser.userPhoneNumber.toString()
                 binding.userName.text = currentUser.userName
             }
@@ -111,7 +111,7 @@ class ProfileFragment : Fragment() {
                 // Got the download URL for 'profileImages/default_profile.png'
                 val downloadUri: Uri = it
                 generatedFilePath = downloadUri.toString() /// The string(file link) that you need
-                Glide.with(binding.profileImage).load(generatedFilePath).into(binding.profileImage)
+                Glide.with(requireContext()).load(generatedFilePath).into(binding.profileImage)
             }).addOnFailureListener(OnFailureListener {
         })
     }
@@ -167,6 +167,7 @@ class ProfileFragment : Fragment() {
                 if (auth?.currentUser != null) {
                     auth?.signOut()
                     startActivity(Intent(activity, SignInActivity::class.java))
+                    activity?.finish()
                 }
                 println("Logout!")
                 true
