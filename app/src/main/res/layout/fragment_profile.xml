@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/app_background"
     android:padding="20sp"
-    tools:context=".ProfileFragment">
+    tools:context=".ProfileFragment"
+    android:paddingBottom="?attr/actionBarSize">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -23,7 +23,7 @@ import net.tipam2022.projet.toBitmap
 
 
 class CategoryAdapter(var context: Context,
-    var categories: ArrayList<Category>?, var callback: (Int)->Unit) :
+    var categories: ArrayList<Category>?, var callback: (Int?)->Unit) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     private var selectedItemPosition: Int = 0
@@ -33,7 +33,7 @@ class CategoryAdapter(var context: Context,
         viewType: Int
     ): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.category_card, parent, false)
-        return ViewHolder (view, callback)
+        return ViewHolder (view)
     }
 
     @SuppressLint("ResourceAsColor")
@@ -45,7 +45,7 @@ class CategoryAdapter(var context: Context,
 
         holder.imageView.setOnClickListener {
             selectedItemPosition = position
-            callback(position)
+            callback(categories?.get(position)?.categoryId)
             println("-------------------------->$position")
             notifyDataSetChanged()
         }
@@ -61,7 +61,7 @@ class CategoryAdapter(var context: Context,
         return categories?.size?:0
     }
 
-   class ViewHolder(itemView: View, var clickLister: (Int)->Unit): RecyclerView.ViewHolder(itemView) {
+   class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
        var imageView: ImageView = itemView.findViewById(R.id.categoryImage)
        var categoryBackground: CardView = itemView.findViewById(R.id.categoryBackground)
    }

@@ -14,17 +14,17 @@
         app:cardCornerRadius="10sp">
 
         <RelativeLayout
-            android:layout_width="250sp"
+            android:layout_width="170sp"
             android:layout_height="wrap_content"
             android:paddingTop="10sp">
 
-            <RadioButton
+            <CheckBox
                 android:id="@+id/favorite"
                 style="@style/FavoriteStyle"
-                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:text="" />
 
             <LinearLayout
                 android:id="@+id/menuInformation"
@@ -39,8 +39,8 @@
                 <ImageView
                     android:id="@+id/menuImage"
                     android:layout_width="match_parent"
-                    android:layout_height="200sp"
-                    android:scaleType="centerCrop" />
+                    android:layout_height="100sp"
+                    android:scaleType="centerInside" />
 
                 <TextView
                     android:id="@+id/menuName"
