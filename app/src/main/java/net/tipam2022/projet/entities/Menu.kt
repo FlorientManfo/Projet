@@ -8,17 +8,17 @@ class Menu: Serializable {
     var menuId: Int= 0
     var menuName: String? = null
     var menuPrice: Float = 0f
-    var menuImageUrl: String? = null
+    var menuImage: String? = null
     var menuDescription: String? = null
 
     constructor()
-    constructor(categoryId: Int, menuId: Int, menuImageUrl: String?,
+    constructor(categoryId: Int, menuId: Int, menuImage: String?,
                 menuName: String, menuPrice: Float, menuDescription: String?){
         this.categoryId = categoryId
         this.menuId = menuId
         this.menuName = menuName
         this.menuPrice = menuPrice
-        this.menuImageUrl = menuImageUrl
+        this.menuImage = menuImage
         this.menuDescription = menuDescription
     }
 

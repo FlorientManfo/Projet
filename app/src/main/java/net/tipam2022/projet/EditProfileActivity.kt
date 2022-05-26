@@ -26,13 +26,11 @@ import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.FirebaseStorage
 import net.tipam2022.projet.EditProfileActivity.Constants.DATABASE_PATH_UPLOADS
 import net.tipam2022.projet.databinding.ActivityEditProfileBinding
 import net.tipam2022.projet.entities.User
@@ -279,7 +277,7 @@ class EditProfileActivity : AppCompatActivity() {
         databaseReference?.child("$PhoneNumber")?.setValue(user)?.addOnCompleteListener {
 
             it.addOnSuccessListener {
-                showDialog(this, "title",
+                showDialog(this, "Profile statute",
                     "Your informations has been updated !",
                     "OK",null,
                     {_,_ ->
@@ -289,7 +287,7 @@ class EditProfileActivity : AppCompatActivity() {
             }
             it.addOnFailureListener {
                 binding.progress.visibility = View.GONE
-                showDialog(this, "title",
+                showDialog(this, "Profile statute",
                     "Something went wrong please try again later !",
                     "OK",null,
                     {_,_ ->

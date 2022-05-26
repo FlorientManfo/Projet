@@ -4,22 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
 import net.tipam2022.projet.adapters.CategoryAdapter
 import net.tipam2022.projet.adapters.MenuAdapter
+import net.tipam2022.projet.adapters.MostPopularAdapter
 import net.tipam2022.projet.databinding.FragmentHomeBinding
 import net.tipam2022.projet.entities.Category
 import net.tipam2022.projet.entities.Menu
-import net.tipam2022.projet.entities.User
-import org.jetbrains.annotations.Nullable
+import net.tipam2022.projet.entities.Opinion
 
 
 /**
@@ -38,6 +33,10 @@ class HomeFragment : Fragment() {
     private var menuRecyclerView: RecyclerView? = null
     private var menus: ArrayList<Menu>? = null
     private var menuAdapter: MenuAdapter? = null
+
+    private var mostPopularMenuRecyclerView: RecyclerView? = null
+    private var mostPopularMenus: ArrayList<Menu>? = null
+    private var mostPopularAdapter: MostPopularAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,18 +59,19 @@ class HomeFragment : Fragment() {
         menus = arrayListOf()
         menuAdapter = MenuAdapter(requireContext(), menus!!){menuClickLister(it)}
         menuRecyclerView?.adapter = menuAdapter
-        getMenus()
+
+        mostPopularMenuRecyclerView = binding.mostPopularList
+        mostPopularMenus = arrayListOf()
+        mostPopularAdapter = MostPopularAdapter(requireContext(), menus!!){menuClickLister(it)}
+        mostPopularMenuRecyclerView?.adapter = menuAdapter
+        getMostPopularMenus()
 
         return binding.root
     }
 
 
-    private fun categoryClickLister(position: Int): Unit{
-        getMenus()
-        Toast.makeText(requireContext(), "$position", Toast.LENGTH_LONG)
-        println("-------------------menuPosition == $position")
-        menus = menus?.filter {it -> it.categoryId ==
-                categories?.get(position)?.categoryId} as ArrayList<Menu>
+    private fun categoryClickLister(categoryId: Int?): Unit{
+        getMenus(categoryId)
     }
 
     private fun menuClickLister(position: Int){
@@ -100,7 +100,9 @@ class HomeFragment : Fragment() {
                 }
                 categoryAdapter?.notifyDataSetChanged()
                 categoryRecyclerView?.adapter =  CategoryAdapter(requireContext(), categories){categoryClickLister(it)}
-                Toast.makeText(requireContext(), "${categories?.size}", Toast.LENGTH_LONG).show()
+                if(categories?.size != 0){
+                    getMenus(categories?.get(0)?.categoryId)
+                }
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 binding.progress.visibility = View.GONE
@@ -108,26 +110,84 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun getMenus() {
+    private fun getMenus(categoryId: Int?) {
+        binding.progress.visibility = View.VISIBLE
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_MENU)
 
         menus?.clear()
         databaseReference?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 binding.progress.visibility = View.GONE
-                categories = ArrayList()
                 for (postSnapshot in snapshot.children) {
                     val menu: Menu? = postSnapshot.getValue(Menu::class.java)
-                    menus?.add(menu!!)
+                    if(menu?.categoryId == categoryId)
+                        menus?.add(menu!!)
                 }
                 menuAdapter?.notifyDataSetChanged()
                 menuRecyclerView?.adapter =  MenuAdapter(requireContext(), menus!!){menuClickLister(it)}
-                Toast.makeText(requireContext(), "${menus?.size}", Toast.LENGTH_LONG).show()
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 binding.progress.visibility = View.GONE
             }
         })
+    }
+
+    private fun getMostPopularMenus() {
+        binding.progress.visibility = View.VISIBLE
+        databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_MENU)
+
+        mostPopularMenus?.clear()
+        databaseReference?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                binding.progress.visibility = View.GONE
+                for (postSnapshot in snapshot.children) {
+                    val menu: Menu? = postSnapshot.getValue(Menu::class.java)
+                    getRate(menu)
+                }
+                mostPopularAdapter?.notifyDataSetChanged()
+                mostPopularMenuRecyclerView?.adapter =  MostPopularAdapter(requireContext(), mostPopularMenus!!){menuClickLister(it)}
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                binding.progress.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun getRate(menu: Menu?): Float{
+        databaseReference = FirebaseDatabase.getInstance().getReference(DetailsActivity.Constants.DATABASE_PATH_OPINION)
+        var finalNote: Float = 0f
+
+        binding.progress.visibility = View.VISIBLE
+        databaseReference?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var note = 0
+                for(postSnapshot in snapshot.children){
+                    var opinion = postSnapshot.getValue(Opinion::class.java)
+                    if(opinion?.status == true &&
+                        opinion?.menuId == menu?.menuId &&
+                        opinion?.categoryId == menu?.categoryId){
+                        note++
+                    }
+                }
+                finalNote = note.toFloat()
+                if(note != 0){
+                    finalNote = note%5f
+                    if(finalNote == 0f)
+                        finalNote = 5f
+                }
+
+                if(finalNote>=3f){
+                    mostPopularMenus?.add(menu!!)
+                }
+                binding.progress.visibility = View.GONE
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                binding.progress.visibility = View.VISIBLE
+                TODO("Not yet implemented")
+            }
+        })
+        return finalNote
     }
 
     object Constants {

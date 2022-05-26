@@ -11,19 +11,20 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     lateinit var containre: FrameLayout
-    lateinit var bottomNamv: BottomNavigationView
+    lateinit var bottomNav: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         containre = binding.mainContainer
-        bottomNamv = binding.bottomNavigation as BottomNavigationView
+        bottomNav = binding.bottomNavigation as BottomNavigationView
+        frManager = supportFragmentManager
 
         setContentView(binding.root)
 
         loadFragment(HomeFragment())
 
-        bottomNamv.setOnItemSelectedListener{ item ->
+        bottomNav.setOnItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.home-> {
                     loadFragment(HomeFragment())
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private  fun loadFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.mainContainer,fragment)
+        transaction.replace(R.id.mainContainer,fragment, fragment::class.java.simpleName)
         transaction.addToBackStack(null)
         transaction.commit()
     }
