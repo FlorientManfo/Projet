@@ -1,9 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20sp"
+    android:background="@color/app_background"
     tools:context=".WelcomeActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/skip"
+        style="@style/TitleRegular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/round_item"
+        android:text="Skip" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+        <TextSwitcher
+            android:id="@+id/messageTitle"
+            style="@style/TitleBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inAnimation="@anim/translate_right_side"
+            android:outAnimation="@anim/translate_left_side"
+            android:textAlignment="textStart"
+            android:textColor="@color/input_border"/>
+
+        <TextSwitcher
+            android:id="@+id/message"
+            style="@style/TitleRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/messageTitle"
+            android:layout_marginTop="20sp"
+            android:inAnimation="@anim/translate_right_side"
+            android:outAnimation="@anim/translate_left_side"
+            android:textAlignment="textStart" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20sp"
+        android:gravity="right">
+
+        <ImageButton
+            android:id="@+id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50sp"
+            android:background="@drawable/round_item"
+            android:src="@drawable/ic_baseline_navigate_before_24" />
+
+        <ImageButton
+            android:id="@+id/next"
+            android:layout_toRightOf="@id/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_item"
+            android:src="@drawable/ic_baseline_navigate_next_24" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progress_bar"/>
+
+</RelativeLayout>

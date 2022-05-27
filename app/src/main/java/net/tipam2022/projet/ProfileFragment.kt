@@ -15,9 +15,13 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import net.tipam2022.projet.ProfileFragment.Constants.DATABASE_PATH_ORDER
 import net.tipam2022.projet.adapters.CategoryAdapter
+import net.tipam2022.projet.adapters.OrderAdapter
 import net.tipam2022.projet.databinding.FragmentProfileBinding
 import net.tipam2022.projet.entities.Category
+import net.tipam2022.projet.entities.Order
+import net.tipam2022.projet.entities.OrderStatus
 import net.tipam2022.projet.entities.User
 import org.jetbrains.annotations.Nullable
 
@@ -31,8 +35,8 @@ class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
     lateinit var currentUser: User
 
-    private var orders: ArrayList<Category>? = null
-    private var orderAdapter: CategoryAdapter? = null
+    private var orders: ArrayList<Order>? = null
+    private var orderAdapter: OrderAdapter? = null
     private var orderRecyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +57,8 @@ class ProfileFragment : Fragment() {
 
 
         orders = ArrayList()
-        orderAdapter = CategoryAdapter(requireContext(), orders!!){ it ->
-            orderClickLister(it)
-        }
+        orderRecyclerView = binding.orderList
+        orderAdapter = OrderAdapter(requireContext(), orders!!)
         orderRecyclerView?.adapter = orderAdapter
         getOrders()
 
@@ -116,44 +119,28 @@ class ProfileFragment : Fragment() {
         })
     }
 
-    private fun getOrders() {
-        databaseReference = FirebaseDatabase.getInstance().getReference("orders/$PhoneNumber")
-        orders?.clear()
-        databaseReference!!.addChildEventListener(object : ChildEventListener {
-            override fun onChildAdded(
-                snapshot: DataSnapshot,
-                @Nullable previousChildName: String?
-            ) {
-                binding.progress?.visibility = View.GONE
-                snapshot.getValue(Category::class.java)?.let { orders?.add(it) }
-                orderAdapter?.notifyDataSetChanged()
-            }
+    private fun getOrders(){
+        databaseReference = FirebaseDatabase.getInstance().getReference(DATABASE_PATH_ORDER)
 
-            override fun onChildChanged(
-                snapshot: DataSnapshot,
-                @Nullable previousChildName: String?
-            ) {
-                binding.progress?.visibility = View.GONE
+        databaseReference?.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                orders?.clear()
+                for(dataSnapshot in snapshot.children){
+                    var order = dataSnapshot.getValue(Order::class.java)
+                    if(order?.userPhoneNumber == PhoneNumber && order?.statute != OrderStatus.NotValidated){
+                        println("${order?.statute}")
+                        orders?.add(order)
+                    }
+                }
                 orderAdapter?.notifyDataSetChanged()
+                binding.progress.visibility = View.GONE
             }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                orderAdapter?.notifyDataSetChanged()
-                binding.progress?.visibility = View.GONE
-            }
-
-            override fun onChildMoved(
-                snapshot: DataSnapshot,
-                @Nullable previousChildName: String?
-            ) {
-                orderAdapter?.notifyDataSetChanged()
-                binding.progress?.visibility = View.GONE
-            }
-
             override fun onCancelled(error: DatabaseError) {
-                println("----------------->${error.message}")
+                TODO("Not yet implemented")
             }
-        })
+
+        }
+        )
     }
 
     private fun orderClickLister(orderId: Int?){
@@ -183,5 +170,6 @@ class ProfileFragment : Fragment() {
     object Constants {
         const val STORAGE_PATH_UPLOADS = "profileImages/"
         const val DATABASE_PATH_UPLOADS = "users"
+        const val DATABASE_PATH_ORDER = "orders"
     }
 }

@@ -40,7 +40,7 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-
+        binding.progress.visibility = View.VISIBLE
         favoriteRecyclerView = binding.favoriteList
         menus = arrayListOf()
         favoriteMenus = arrayListOf()
@@ -63,7 +63,7 @@ class FavoriteFragment : Fragment() {
 
     private fun getFavorites(menu: Menu){
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_OPINION)
-        binding.progress.visibility = View.VISIBLE
+
         databaseReference?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(postSnapshot in snapshot.children){
@@ -75,12 +75,11 @@ class FavoriteFragment : Fragment() {
                     }
                 }
                 favoriteAdapter?.notifyDataSetChanged()
-                favoriteRecyclerView?.adapter =  FavoriteAdapter(requireContext(), favoriteMenus!!){favoriteClickLister(it)}
                 binding.progress.visibility = View.GONE
             }
 
             override fun onCancelled(error: DatabaseError) {
-                binding.progress.visibility = View.VISIBLE
+                binding.progress.visibility = View.GONE
                 TODO("Not yet implemented")
             }
         })

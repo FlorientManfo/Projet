@@ -11,23 +11,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.gms.tasks.Task
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import net.tipam2022.projet.*
 import net.tipam2022.projet.entities.Menu
 import net.tipam2022.projet.entities.Opinion
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MenuAdapter(
     var context: Context,
-    private var menus: ArrayList<Menu>, var callback: (Int)->Unit) :
+    var menus: ArrayList<Menu>, var callback: (Int)->Unit) :
     RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -40,7 +34,7 @@ class MenuAdapter(
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val menu = menus?.get(position)
         Glide.with(context).load(menu?.menuImage.toBitmap()).into(holder.imageView)
-        holder.price.text = menu.menuPrice.toString()
+        holder.price.text = menu.menuPrice.toString()+" XAF"
         holder.name.text = menu.menuName.toString()
         var opinion: Opinion? = getOpinion(menu, holder.like)
 
@@ -93,7 +87,6 @@ class MenuAdapter(
         }
         return opinion
     }
-
     object Constants {
         const val DATABASE_PATH_UPLOADS = "opinions"
     }

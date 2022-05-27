@@ -17,13 +17,13 @@
             android:id="@+id/topBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/profile_title"
-            app:titleTextAppearance="@style/TitleBold"
-            app:titleTextColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="30dp"
             android:textAlignment="center"
             app:menu="@menu/profile_top_menu"
-            android:layout_marginBottom="10dp"
-            android:layout_alignParentTop="true"/>
+            app:title="@string/profile_title"
+            app:titleTextAppearance="@style/TitleBold"
+            app:titleTextColor="@color/white" />
 
         <RelativeLayout
             android:id="@+id/information"
@@ -98,12 +98,13 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="20sp"
-            android:layout_below="@id/orderListTitle"
             android:id="@+id/orderList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/order_item"/>
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/orderListTitle"
+            android:layout_marginTop="20sp"
+            tools:listitem="@layout/order_item" />
 
         <ProgressBar
             android:id="@+id/progress"

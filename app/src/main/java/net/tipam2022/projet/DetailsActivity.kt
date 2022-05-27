@@ -135,8 +135,8 @@ class DetailsActivity : AppCompatActivity() {
         var inputQuantity: EditText? = view.findViewById(R.id.quantity)
         inputQuantity?.setText("0")
         quantity = inputQuantity?.text.toString().toInt()
-        var upButton: Button? = view.findViewById(R.id.up)
-        var downButton: Button? = view.findViewById(R.id.down)
+        var upButton: ImageButton? = view.findViewById(R.id.up)
+        var downButton: ImageButton? = view.findViewById(R.id.down)
 
         var cancel: Button? = view.findViewById(R.id.cancel)
         var save: Button? = view.findViewById(R.id.save)
@@ -193,7 +193,7 @@ class DetailsActivity : AppCompatActivity() {
                 it.addOnSuccessListener {
                     binding.progress.visibility = View.GONE
                     showDialog(this, "Order statute",
-                        "Your order has been added in your card!",
+                        "Your order has been added in your cart!",
                         "OK",null,
                         {_,_ ->
                             binding.progress.visibility = View.GONE

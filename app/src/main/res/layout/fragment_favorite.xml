@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="20sp"
+            android:layout_marginBottom="30sp"
             android:textAlignment="center"
             app:menu="@menu/home_top_menu"
             app:title="@string/fav_title"
@@ -33,7 +33,7 @@
             android:layout_below="@id/topBar"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/favorite_menu_card"/>
+            tools:listitem="@layout/favorite_menu_card" />
 
         <ProgressBar
             android:id="@+id/progress"

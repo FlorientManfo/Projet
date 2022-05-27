@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.ProgressBar
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -62,13 +63,35 @@ class HomeFragment : Fragment() {
 
         mostPopularMenuRecyclerView = binding.mostPopularList
         mostPopularMenus = arrayListOf()
-        mostPopularAdapter = MostPopularAdapter(requireContext(), menus!!){menuClickLister(it)}
-        mostPopularMenuRecyclerView?.adapter = menuAdapter
+        mostPopularAdapter = MostPopularAdapter(requireContext(), mostPopularMenus!!){menuClickLister(it)}
+        mostPopularMenuRecyclerView?.adapter = mostPopularAdapter
         getMostPopularMenus()
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filter(newText)
+                return false
+            }
+        })
 
         return binding.root
     }
 
+    private fun filter(text: String?) {
+        val filteredlist: ArrayList<Menu> = ArrayList()
+
+        for (item in menus!!) {
+            if (item.menuDescription?.toLowerCase()?.contains(text?.toLowerCase()!!) == true) {
+                filteredlist.add(item)
+            }
+        }
+        menuAdapter?.menus = filteredlist
+        menuAdapter?.notifyDataSetChanged()
+    }
 
     private fun categoryClickLister(categoryId: Int?): Unit{
         getMenus(categoryId)
@@ -89,17 +112,15 @@ class HomeFragment : Fragment() {
     private fun getCategories() {
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_CATEGORY)
 
-        categories?.clear()
         databaseReference?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                categories?.clear()
                 binding.progress.visibility = View.GONE
-                categories = ArrayList()
                 for (postSnapshot in snapshot.children) {
                     val category: Category? = postSnapshot.getValue(Category::class.java)
                     categories?.add(category!!)
                 }
                 categoryAdapter?.notifyDataSetChanged()
-                categoryRecyclerView?.adapter =  CategoryAdapter(requireContext(), categories){categoryClickLister(it)}
                 if(categories?.size != 0){
                     getMenus(categories?.get(0)?.categoryId)
                 }
@@ -114,9 +135,9 @@ class HomeFragment : Fragment() {
         binding.progress.visibility = View.VISIBLE
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_MENU)
 
-        menus?.clear()
         databaseReference?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                menus?.clear()
                 binding.progress.visibility = View.GONE
                 for (postSnapshot in snapshot.children) {
                     val menu: Menu? = postSnapshot.getValue(Menu::class.java)
@@ -124,7 +145,6 @@ class HomeFragment : Fragment() {
                         menus?.add(menu!!)
                 }
                 menuAdapter?.notifyDataSetChanged()
-                menuRecyclerView?.adapter =  MenuAdapter(requireContext(), menus!!){menuClickLister(it)}
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 binding.progress.visibility = View.GONE
@@ -136,16 +156,15 @@ class HomeFragment : Fragment() {
         binding.progress.visibility = View.VISIBLE
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_MENU)
 
-        mostPopularMenus?.clear()
         databaseReference?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                mostPopularMenus?.clear()
                 binding.progress.visibility = View.GONE
                 for (postSnapshot in snapshot.children) {
                     val menu: Menu? = postSnapshot.getValue(Menu::class.java)
                     getRate(menu)
                 }
                 mostPopularAdapter?.notifyDataSetChanged()
-                mostPopularMenuRecyclerView?.adapter =  MostPopularAdapter(requireContext(), mostPopularMenus!!){menuClickLister(it)}
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 binding.progress.visibility = View.GONE
@@ -153,7 +172,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun getRate(menu: Menu?): Float{
+    private fun getRate(menu: Menu?){
         databaseReference = FirebaseDatabase.getInstance().getReference(DetailsActivity.Constants.DATABASE_PATH_OPINION)
         var finalNote: Float = 0f
 
@@ -177,6 +196,7 @@ class HomeFragment : Fragment() {
                 }
 
                 if(finalNote>=3f){
+                    println("most popular----------------------->$finalNote")
                     mostPopularMenus?.add(menu!!)
                 }
                 binding.progress.visibility = View.GONE
@@ -187,7 +207,6 @@ class HomeFragment : Fragment() {
                 TODO("Not yet implemented")
             }
         })
-        return finalNote
     }
 
     object Constants {

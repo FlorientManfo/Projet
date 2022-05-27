@@ -28,9 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_below="@id/topBar"
-            android:gravity="center"
+            android:layout_marginTop="30sp"
             android:layout_marginBottom="10sp"
-            android:layout_marginTop="20sp">
+            android:gravity="center">
 
             <SearchView
                 android:id="@+id/searchView"

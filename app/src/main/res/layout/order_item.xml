@@ -34,35 +34,50 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@id/menuName"
+            android:layout_marginTop="13sp"
             android:layout_toRightOf="@id/menuImage">
+
             <TextView
                 android:id="@+id/quantity"
+                style="@style/TitleRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TitleRegular"
                 android:text="4 :"
-                android:textColor="@color/app_background"/>
+                android:textColor="@color/app_background" />
+
             <TextView
                 android:id="@+id/price"
+                style="@style/TitleRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/TitleRegular"
                 android:text=" 200 XAF"
-                android:textColor="@color/app_background"
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd"
+                android:textColor="@color/app_background" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/date"
+            style="@style/TextRegular"
             android:layout_width="90sp"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            style="@style/TextRegular"
-            android:textAlignment="center"
+            android:inputType="textMultiLine"
             android:text="22/05/2022 16:10"
-            android:textColor="@color/app_background"/>
+            android:textAlignment="center"
+            android:textColor="@color/app_background" />
+
+        <TextView
+            android:id="@+id/statute"
+            style="@style/TextRegular"
+            android:layout_width="90sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/date"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="7sp"
+            android:inputType="textMultiLine"
+            android:text="Statute"
+            android:textAlignment="center"
+            android:textColor="@color/app_background" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
