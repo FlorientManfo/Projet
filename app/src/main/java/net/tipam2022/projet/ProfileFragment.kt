@@ -1,12 +1,10 @@
 package net.tipam2022.projet
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,14 +14,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import net.tipam2022.projet.ProfileFragment.Constants.DATABASE_PATH_ORDER
-import net.tipam2022.projet.adapters.CategoryAdapter
 import net.tipam2022.projet.adapters.OrderAdapter
 import net.tipam2022.projet.databinding.FragmentProfileBinding
-import net.tipam2022.projet.entities.Category
 import net.tipam2022.projet.entities.Order
 import net.tipam2022.projet.entities.OrderStatus
 import net.tipam2022.projet.entities.User
-import org.jetbrains.annotations.Nullable
 
 
 /**
@@ -32,8 +27,8 @@ import org.jetbrains.annotations.Nullable
  * create an instance of this fragment.
  */
 class ProfileFragment : Fragment() {
-    lateinit var binding: FragmentProfileBinding
     lateinit var currentUser: User
+    lateinit var binding: FragmentProfileBinding
 
     private var orders: ArrayList<Order>? = null
     private var orderAdapter: OrderAdapter? = null
@@ -49,12 +44,9 @@ class ProfileFragment : Fragment() {
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-
-
         binding.editButton.setOnClickListener { goToEdit() }
         binding.progress.visibility = View.VISIBLE
         getInformation(requireContext())
-
 
         orders = ArrayList()
         orderRecyclerView = binding.orderList
@@ -135,6 +127,7 @@ class ProfileFragment : Fragment() {
                 orderAdapter?.notifyDataSetChanged()
                 binding.progress.visibility = View.GONE
             }
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }

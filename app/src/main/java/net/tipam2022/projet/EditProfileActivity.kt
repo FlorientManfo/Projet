@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.icu.util.LocaleData
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -36,6 +37,8 @@ import net.tipam2022.projet.databinding.ActivityEditProfileBinding
 import net.tipam2022.projet.entities.User
 import java.io.File
 import java.lang.reflect.Method
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -48,7 +51,7 @@ class EditProfileActivity : AppCompatActivity() {
     private val OPERATION_CHOOSE_PHOTO = 2
     private var currentUser: User? = null
 
-    @RequiresApi(Build.VERSION_CODES.M)
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
@@ -192,10 +195,11 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun cancel(){
         binding.newEmail.setText("")
         binding.newUserName.setText("")
-        binding.birthDay.setText(Date().toString())
+        binding.birthDay.setText(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE))
         finish()
     }
 
@@ -206,7 +210,6 @@ class EditProfileActivity : AppCompatActivity() {
         editor.putLong("phoneNumber", PhoneNumber)
         editor.commit()
     }
-
 
     private fun getInformation(context: Context){
         databaseReference = FirebaseDatabase.getInstance()

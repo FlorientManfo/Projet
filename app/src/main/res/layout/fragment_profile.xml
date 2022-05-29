@@ -101,9 +101,11 @@
             android:id="@+id/orderList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_below="@id/orderListTitle"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="20sp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
             tools:listitem="@layout/order_item" />
 
         <ProgressBar

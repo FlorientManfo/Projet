@@ -3,6 +3,7 @@ package net.tipam2022.projet
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -27,6 +28,7 @@ class HomeFragment : Fragment() {
     private var progressBar: ProgressBar? = null
     lateinit var binding: FragmentHomeBinding
 
+    var currentCategory: Int = 0
     private var categoryRecyclerView: RecyclerView? = null
     private var categories: ArrayList<Category>? = null
     private var categoryAdapter: CategoryAdapter? = null
@@ -42,7 +44,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): FrameLayout {
 
         auth = FirebaseAuth.getInstance();
 
@@ -65,7 +67,6 @@ class HomeFragment : Fragment() {
         mostPopularMenus = arrayListOf()
         mostPopularAdapter = MostPopularAdapter(requireContext(), mostPopularMenus!!){menuClickLister(it)}
         mostPopularMenuRecyclerView?.adapter = mostPopularAdapter
-        getMostPopularMenus()
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -76,24 +77,29 @@ class HomeFragment : Fragment() {
                 filter(newText)
                 return false
             }
+
         })
+
 
         return binding.root
     }
 
     private fun filter(text: String?) {
-        val filteredlist: ArrayList<Menu> = ArrayList()
-
+        val filteredList: ArrayList<Menu> = ArrayList()
+        getMenus(currentCategory)
         for (item in menus!!) {
-            if (item.menuDescription?.toLowerCase()?.contains(text?.toLowerCase()!!) == true) {
-                filteredlist.add(item)
+            if (item.menuDescription?.toLowerCase()?.contains(text?.toLowerCase()?:"") == true) {
+                filteredList.add(item)
             }
         }
-        menuAdapter?.menus = filteredlist
-        menuAdapter?.notifyDataSetChanged()
+        if(filteredList?.size != 0){
+            menus = filteredList?.clone() as  ArrayList<Menu>
+            menuAdapter?.notifyDataSetChanged()
+        }
     }
 
-    private fun categoryClickLister(categoryId: Int?): Unit{
+    private fun categoryClickLister(categoryId: Int?){
+        currentCategory = categoryId!!
         getMenus(categoryId)
     }
 
@@ -106,8 +112,6 @@ class HomeFragment : Fragment() {
         intent.putExtras(bundle)
         startActivity(intent)
     }
-
-
 
     private fun getCategories() {
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_CATEGORY)
@@ -123,6 +127,7 @@ class HomeFragment : Fragment() {
                 categoryAdapter?.notifyDataSetChanged()
                 if(categories?.size != 0){
                     getMenus(categories?.get(0)?.categoryId)
+                    getMostPopularMenus(categories?.get(0)?.categoryId)
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
@@ -135,9 +140,9 @@ class HomeFragment : Fragment() {
         binding.progress.visibility = View.VISIBLE
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_MENU)
 
+        menus?.clear()
         databaseReference?.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                menus?.clear()
                 binding.progress.visibility = View.GONE
                 for (postSnapshot in snapshot.children) {
                     val menu: Menu? = postSnapshot.getValue(Menu::class.java)
@@ -145,6 +150,7 @@ class HomeFragment : Fragment() {
                         menus?.add(menu!!)
                 }
                 menuAdapter?.notifyDataSetChanged()
+                getMostPopularMenus(categoryId)
             }
             override fun onCancelled(databaseError: DatabaseError) {
                 binding.progress.visibility = View.GONE
@@ -152,7 +158,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun getMostPopularMenus() {
+    private fun getMostPopularMenus(categoryId: Int?) {
         binding.progress.visibility = View.VISIBLE
         databaseReference = FirebaseDatabase.getInstance().getReference(Constants.DATABASE_PATH_MENU)
 
@@ -162,7 +168,8 @@ class HomeFragment : Fragment() {
                 binding.progress.visibility = View.GONE
                 for (postSnapshot in snapshot.children) {
                     val menu: Menu? = postSnapshot.getValue(Menu::class.java)
-                    getRate(menu)
+                    if(menu?.categoryId == categoryId)
+                        getRate(menu)
                 }
                 mostPopularAdapter?.notifyDataSetChanged()
             }
@@ -174,7 +181,7 @@ class HomeFragment : Fragment() {
 
     private fun getRate(menu: Menu?){
         databaseReference = FirebaseDatabase.getInstance().getReference(DetailsActivity.Constants.DATABASE_PATH_OPINION)
-        var finalNote: Float = 0f
+        var finalNote = 0f
 
         binding.progress.visibility = View.VISIBLE
         databaseReference?.addValueEventListener(object : ValueEventListener {
@@ -198,6 +205,8 @@ class HomeFragment : Fragment() {
                 if(finalNote>=3f){
                     println("most popular----------------------->$finalNote")
                     mostPopularMenus?.add(menu!!)
+                    mostPopularAdapter?.notifyDataSetChanged()
+                    println("most popular ***********************> ${mostPopularMenus?.size}")
                 }
                 binding.progress.visibility = View.GONE
             }

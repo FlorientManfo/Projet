@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.database.*
@@ -22,6 +23,8 @@ import net.tipam2022.projet.entities.Menu
 import net.tipam2022.projet.entities.Opinion
 import net.tipam2022.projet.entities.Order
 import net.tipam2022.projet.entities.OrderStatus
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -172,11 +175,13 @@ class DetailsActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addToCart(){
         databaseReference = FirebaseDatabase.getInstance().getReference(DATABASE_PATH_MENU)
 
         if(quantity > 0){
             var orderId = databaseReference?.push()?.key
+            var formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY HH:mm")
             var order = Order(
                 orderId = orderId!!,
                 userPhoneNumber = PhoneNumber,
@@ -184,7 +189,7 @@ class DetailsActivity : AppCompatActivity() {
                 categoryId = menu?.categoryId!!,
                 quantity = quantity,
                 price = menu?.menuPrice!! * quantity,
-                date = Date().toString(),
+                date = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                 statute = OrderStatus.NotValidated
             )
             databaseReference?.child(orderId)?.setValue(order)?.addOnCompleteListener {

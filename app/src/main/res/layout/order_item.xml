@@ -10,74 +10,101 @@
     app:cardCornerRadius="10sp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/menuImage"
-            android:layout_width="70sp"
-            android:layout_height="70sp"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
             android:layout_marginRight="10sp"
             android:scaleType="centerCrop" />
-        <TextView
-            android:id="@+id/menuName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TitleRegular"
-            android:text="Spaghetti"
-            android:textColor="@color/app_background"
-            android:layout_toRightOf="@id/menuImage"/>
 
         <LinearLayout
-            android:id="@+id/information"
+            android:id="@+id/details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/menuName"
-            android:layout_marginTop="13sp"
-            android:layout_toRightOf="@id/menuImage">
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/menuImage"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/quantity"
+                android:id="@+id/menuName"
                 style="@style/TitleRegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4 :"
-                android:textColor="@color/app_background" />
+                android:layout_toRightOf="@id/menuImage"
+                android:text="Spaghetti"
+                android:textAlignment="textStart"
+                android:textColor="@color/app_background"
+                android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/price"
-                style="@style/TitleRegular"
+            <LinearLayout
+                android:id="@+id/information"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 200 XAF"
-                android:textAlignment="textEnd"
-                android:textColor="@color/app_background" />
+                android:layout_below="@id/menuName"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="13sp"
+                android:layout_toRightOf="@id/menuImage"
+                android:orientation="horizontal"
+                android:textAlignment="textStart">
+
+                <TextView
+                    android:id="@+id/quantity"
+                    style="@style/TitleRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4 :"
+                    android:textColor="@color/app_background"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/price"
+                    style="@style/TitleRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 200 XAF"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/input_border"
+                    android:textSize="13sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/date"
-            style="@style/TextRegular"
-            android:layout_width="90sp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:inputType="textMultiLine"
-            android:text="22/05/2022 16:10"
-            android:textAlignment="center"
-            android:textColor="@color/app_background" />
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/details"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/statute"
-            style="@style/TextRegular"
-            android:layout_width="90sp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/date"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="7sp"
-            android:inputType="textMultiLine"
-            android:text="Statute"
-            android:textAlignment="center"
-            android:textColor="@color/app_background" />
+            <TextView
+                android:id="@+id/date"
+                style="@style/TextRegular"
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:inputType="textMultiLine"
+                android:text="22/05/2022 16:10"
+                android:textAlignment="center"
+                android:textColor="@color/app_background"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/statute"
+                style="@style/TextRegular"
+                android:layout_width="90sp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="7sp"
+                android:inputType="textMultiLine"
+                android:text="Statute"
+                android:textAlignment="center"
+                android:textColor="@color/app_background" />
+        </LinearLayout>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

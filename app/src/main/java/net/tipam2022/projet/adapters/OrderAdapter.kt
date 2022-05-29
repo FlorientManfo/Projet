@@ -50,7 +50,7 @@ class OrderAdapter(var context: Context,
         println(order.orderId)
         getMenu(order.menuId, holder.imageView, holder.menu)
         holder.date.text = LocalDate.parse(order.date, DateTimeFormatter.ISO_DATE_TIME).toString()
-        holder.quantity.text = order.quantity.toString()
+        holder.quantity.text = order.quantity.toString()+ ": "
         holder.price.text = "${order.price.toString()} XAF"
         holder.statute.text = order.statute.name
     }
@@ -71,8 +71,9 @@ class OrderAdapter(var context: Context,
     }
 
     private fun getMenu(menuId: Int, imageView: ImageView, textView: TextView): Menu?{
-        var databaseReference = FirebaseDatabase.getInstance().getReference("menus/$menuId")
+        var databaseReference = FirebaseDatabase.getInstance().getReference("menus")
         var menu: Menu? = null
+        println("----------------------------------------->${menuId}")
         databaseReference!!.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (postSnapshot in snapshot.children) {

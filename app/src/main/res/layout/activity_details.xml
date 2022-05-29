@@ -12,7 +12,10 @@
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="17dp"
         app:menu="@menu/details_top_menu"
         app:navigationIcon="@drawable/navigate_before_layer"
         app:title="Menu Details"
@@ -85,9 +88,11 @@
     <ScrollView
         android:id="@+id/scrollableDescription"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="111dp"
+        android:layout_above="@id/menuStatus"
         android:layout_below="@id/detailsText"
-        android:layout_above="@id/menuStatus">
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,20 +114,23 @@
         </LinearLayout>
     </ScrollView>
 
+
     <RelativeLayout
         android:id="@+id/menuStatus"
         android:layout_width="match_parent"
         android:layout_height="30sp"
-        android:layout_marginRight="20sp"
+        android:layout_above="@id/addToCartButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="9dp"
         android:gravity="center"
-        android:paddingLeft="20sp"
-        android:layout_above="@id/addToCartButton">
+        android:paddingRight="20sp"
+        android:paddingLeft="20sp">
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_column="1"
             android:layout_alignParentStart="true"
             android:orientation="horizontal">
 
@@ -143,8 +151,6 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_row="1"
-            android:layout_column="2"
             android:layout_alignParentEnd="true"
             android:orientation="horizontal">
 
@@ -161,8 +167,8 @@
                 android:layout_height="wrap_content"
                 android:text="20 Min" />
         </LinearLayout>
-    </RelativeLayout>
 
+    </RelativeLayout>
 
     <Button
         android:id="@+id/addToCartButton"

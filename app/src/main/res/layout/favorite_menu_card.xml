@@ -28,7 +28,7 @@
 
         </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -52,17 +52,18 @@
                 android:layout_marginTop="10sp"
                 android:textAlignment="textStart"
                 android:textColor="@color/input_border" />
-        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/remove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20sp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_baseline_delete_forever_24" />
+            <ImageButton
+                android:id="@+id/remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_toRightOf="@id/menuPrice"
+                android:layout_below="@id/menuName"
+                android:layout_marginTop="10sp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_delete_forever_24" />
+        </RelativeLayout>
 
     </RelativeLayout>
 

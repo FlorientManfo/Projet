@@ -39,6 +39,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/search_view_background"
                 android:searchIcon="@drawable/search_icon_layer"
+                android:foregroundTint="@color/white"
+                android:queryHint="Search..."
                 android:textAlignment="textStart" />
 
         </RelativeLayout>

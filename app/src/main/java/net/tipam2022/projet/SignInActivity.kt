@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import net.tipam2022.projet.databinding.ActivitySignInBinding
 import net.tipam2022.projet.entities.User
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -63,6 +65,7 @@ class SignInActivity : AppCompatActivity() {
                 binding.userName.visibility = View.VISIBLE
             }
         }
+
         binding.userName.doOnTextChanged { text, start, before, count ->
             UserName = text.toString()
         }
@@ -74,6 +77,7 @@ class SignInActivity : AppCompatActivity() {
                 getOtp()
             }
         }
+
         back.setOnClickListener {
             back.visibility = View.GONE
             binding.verification.visibility = View.GONE
@@ -178,13 +182,14 @@ class SignInActivity : AppCompatActivity() {
     private fun addDataToFirebase() {
 
         databaseReference!!.addValueEventListener(object : ValueEventListener {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(snapshot: DataSnapshot) {
                 var user = User(
                     PhoneNumber!!,
                     UserName!!,
                     null,
                     null,
-                    Date().toString(),
+                    LocalDateTime.now().format(DateTimeFormatter.ISO_DATE),
                     null
                 )
                 databaseReference!!.child(PhoneNumber?.toString()).setValue(user)

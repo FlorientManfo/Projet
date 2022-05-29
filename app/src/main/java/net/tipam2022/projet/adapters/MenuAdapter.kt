@@ -38,9 +38,10 @@ class MenuAdapter(
         holder.name.text = menu.menuName.toString()
         var opinion: Opinion? = getOpinion(menu, holder.like)
 
-        holder.buyButton.setOnClickListener {
+        holder.itemView.setOnClickListener {
             callback(position)
         }
+
         holder.like.setOnClickListener {
             setOpinion(menu, holder.like.isChecked, null)
         }
