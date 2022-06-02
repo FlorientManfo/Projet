@@ -114,12 +114,22 @@ class CartAdapter(var context: Context,
     private fun getMenu(menuId: Int, imageView: ImageView, textView: TextView){
         var databaseReference = FirebaseDatabase.getInstance().getReference(DATABASE_PATH_MENU)
         var menu: Menu? = null
-        databaseReference.child(menuId.toString()).get().addOnSuccessListener {
+        databaseReference?.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (dataSnapshot in snapshot.children) {
+                    menu = dataSnapshot.getValue(Menu::class.java)
+                    if (menu?.menuId == menuId) {
+                        Glide.with(context).load(menu?.menuImage.toBitmap()).into(imageView)
+                        println(menu?.menuId)
+                        textView.text = menu?.menuName
+                    }
+                }
+            }
 
-            menu = it.getValue(Menu::class.java)
-            Glide.with(context).load(menu?.menuImage.toBitmap()).into(imageView)
-            textView.text = menu?.menuName
-        }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     object Constants {
